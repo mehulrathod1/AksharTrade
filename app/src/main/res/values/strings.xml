@@ -1,0 +1,21 @@
+<resources>
+
+    <string name="app_name">AksharTrade</string>
+
+
+    <!--    login-->
+
+    <string name="Login">LOGIN</string>
+    <string name="Login_to">Login to Akshar Trade</string>
+    <string name="sign_in">SIGN IN</string>
+
+    <!--    home-->
+    <string name="Dashboard">Dashboard</string>
+    <string name="Orders">Orders</string>
+    <string name="trade_book">Trade Book</string>
+    <string name="History">History</string>
+    <string name="Ledger">Ledger</string>
+    <string name="Net_Position">Net Position</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
