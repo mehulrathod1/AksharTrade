@@ -48,7 +48,7 @@ public class Dashboard extends Fragment {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
-        TabStockAdapter tabStockAdapter = new TabStockAdapter(getActivity().getSupportFragmentManager(),getActivity(),tabLayout.getTabCount());
+        TabStockAdapter tabStockAdapter = new TabStockAdapter(getActivity().getSupportFragmentManager(), getActivity(), tabLayout.getTabCount());
 
         viewPager.setAdapter(tabStockAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

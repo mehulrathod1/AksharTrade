@@ -10,7 +10,12 @@
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/activity_login2.xml" value="0.19010416666666666" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/activity_sign_in.xml" value="0.18" />
+        <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/fragment_bse_stock.xml" value="0.20416666666666666" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/fragment_dashboard.xml" value="0.20416666666666666" />
+        <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/fragment_fo_stock.xml" value="0.20416666666666666" />
+        <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/fragment_mcx_stock.xml" value="0.20416666666666666" />
+        <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/fragment_nse_stock.xml" value="0.20416666666666666" />
+        <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/stock_data_item.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>
