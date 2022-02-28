@@ -1,4 +1,4 @@
-package com.in.akshartrade.fragment;
+package com.in.akshartrade.Fragment;
 
 import android.os.Bundle;
 
@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.in.akshartrade.R;
-import com.in.akshartrade.adapter.NseStockAdapter;
-import com.in.akshartrade.model.NseStockModel;
+import com.in.akshartrade.Adapter.NseStockAdapter;
+import com.in.akshartrade.Model.NseStockModel;
 
 import java.util.ArrayList;
 import java.util.List;

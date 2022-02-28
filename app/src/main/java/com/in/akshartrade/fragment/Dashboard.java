@@ -1,4 +1,4 @@
-package com.in.akshartrade.fragment;
+package com.in.akshartrade.Fragment;
 
 import android.os.Bundle;
 
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 import com.in.akshartrade.R;
-import com.in.akshartrade.adapter.TabStockAdapter;
+import com.in.akshartrade.Adapter.TabStockAdapter;
 
 
 public class Dashboard extends Fragment {
@@ -33,6 +33,7 @@ public class Dashboard extends Fragment {
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         init();
         return view;
+
     }
 
     public void init() {

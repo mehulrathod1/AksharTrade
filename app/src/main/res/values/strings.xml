@@ -16,6 +16,32 @@
     <string name="History">History</string>
     <string name="Ledger">Ledger</string>
     <string name="Net_Position">Net Position</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--    company_detail-->
+    <string name="Volume">Volume</string>
+    <string name="Bid">Bid</string>
+    <string name="Ask">Ask</string>
+    <string name="Open_Interest">Open Interest</string>
+    <string name="ATP">ATP</string>
+    <string name="Lower_Circuit">Lower Circuit</string>
+    <string name="Open">Open</string>
+    <string name="High">High</string>
+    <string name="Low">Low</string>
+    <string name="Close">Close</string>
+    <string name="Upper_Circuit">Upper Circuit</string>
+    <string name="Quantity">Quantity :</string>
+    <string name="Price">Price :</string>
+    <string name="Lot_Size">Lot Size :</string>
+    <string name="Stake">Stake :</string>
+    <string name="LimitHL">LimitHL</string>
+    <string name="Market">Market</string>
+    <string name="BUY">BUY</string>
+    <string name="SELL">SELL</string>
+    <string name="Order_Type">Order Type :</string>
+
+    <!--    order-->
+
+    <string name="LTP">LTP :</string>
+    <string name="PL">P&amp;L :</string>
 </resources>

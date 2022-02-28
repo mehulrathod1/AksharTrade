@@ -1,4 +1,4 @@
-package com.in.akshartrade.model;
+package com.in.akshartrade.Model;
 
 public class NseStockModel {
 

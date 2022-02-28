@@ -1,4 +1,4 @@
-package com.in.akshartrade.adapter;
+package com.in.akshartrade.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.in.akshartrade.R;
-import com.in.akshartrade.model.NseStockModel;
+import com.in.akshartrade.Model.NseStockModel;
 
 import java.util.List;
 

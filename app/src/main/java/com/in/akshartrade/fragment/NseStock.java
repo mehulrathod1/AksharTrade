@@ -1,5 +1,6 @@
-package com.in.akshartrade.fragment;
+package com.in.akshartrade.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,9 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.in.akshartrade.Dialog.CompanyDetailActivity;
 import com.in.akshartrade.R;
-import com.in.akshartrade.adapter.NseStockAdapter;
-import com.in.akshartrade.model.NseStockModel;
+import com.in.akshartrade.Adapter.NseStockAdapter;
+import com.in.akshartrade.Model.NseStockModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +69,9 @@ public class NseStock extends Fragment {
         nseStockAdapter = new NseStockAdapter(nseStockModelList, getContext(), new NseStockAdapter.Click() {
             @Override
             public void onItemClick(int position) {
+
+                Intent intent = new Intent(getContext(), CompanyDetailActivity.class);
+                startActivity(intent);
 
             }
         });
