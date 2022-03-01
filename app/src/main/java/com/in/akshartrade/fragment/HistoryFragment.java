@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 
 import com.in.akshartrade.Adapter.OrderAdapter;
 import com.in.akshartrade.Model.OrderModel;
@@ -18,7 +17,7 @@ import com.in.akshartrade.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderFragment extends Fragment {
+public class HistoryFragment extends Fragment {
 
     View view;
     RecyclerView orderRecycler;
@@ -33,8 +32,8 @@ public class OrderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        view = inflater.inflate(R.layout.fragment_order, container, false);
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_history, container, false);
         init();
         orderData();
         return view;

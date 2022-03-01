@@ -9,13 +9,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.in.akshartrade.Fragment.HistoryFragment;
 import com.in.akshartrade.Fragment.OrderFragment;
 import com.in.akshartrade.R;
 import com.in.akshartrade.Fragment.Dashboard;
 
 public class MainActivity extends AppCompatActivity {
 
-    LinearLayout LayoutDashboard, LayoutOrder;
+    LinearLayout layoutDashboard, layoutOrder,layoutHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void init() {
 
-        LayoutOrder = findViewById(R.id.LayoutOrder);
-
+        layoutOrder = findViewById(R.id.LayoutOrder);
+        layoutDashboard = findViewById(R.id.LayoutDashboard);
+        layoutHistory = findViewById(R.id.LayoutHistory);
 
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.mainFrame, new Dashboard());
@@ -43,7 +45,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void clickEvent() {
 
-        LayoutOrder.setOnClickListener(new View.OnClickListener() {
+        layoutDashboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                loadFragment(new Dashboard());
+
+            }
+        });
+
+        layoutOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -51,6 +62,16 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        layoutHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                loadFragment(new HistoryFragment());
+
+            }
+        });
+
     }
 
     private void loadFragment(Fragment fragment) {

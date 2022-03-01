@@ -39,9 +39,21 @@
     <string name="BUY">BUY</string>
     <string name="SELL">SELL</string>
     <string name="Order_Type">Order Type :</string>
+    <string name="IV">IV (%)</string>
+    <string name="IO">IO (lakhs)</string>
+    <string name="strike_price">Strike Price</string>
 
     <!--    order-->
 
     <string name="LTP">LTP :</string>
     <string name="PL">P&amp;L :</string>
+
+    <!--    history-->
+    <string name="HISTORY">HISTORY</string>
+    <string name="Current_Value">Current Value *</string>
+    <string name="Total_Investment">Total Investment *</string>
+    <string name="Today_Profit">Today\'s Profit &amp; Loss *</string>
+    <string name="Profit_Loss">Profit &amp; Loss *</string>
+
+
 </resources>

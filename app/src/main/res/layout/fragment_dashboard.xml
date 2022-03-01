@@ -161,8 +161,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_16sdp"
                     android:layout_marginRight="@dimen/_16sdp"
+                    app:layout_collapseMode="pin"
+                    app:tabGravity="fill"
                     app:tabMode="fixed"
-                    app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
+                    app:tabTextAppearance="@style/q_reg_blue_12" />
 
             </LinearLayout>
 
