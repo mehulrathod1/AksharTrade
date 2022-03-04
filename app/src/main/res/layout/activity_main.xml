@@ -31,11 +31,11 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/LayoutDashboard"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:id="@+id/LayoutDashboard"
                 android:orientation="vertical">
 
                 <ImageView
@@ -51,11 +51,11 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/LayoutOrder"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:id="@+id/LayoutOrder"
                 android:orientation="vertical">
 
                 <ImageView
@@ -72,6 +72,7 @@
 
             <LinearLayout
 
+                android:id="@+id/LayoutTradeBook"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"

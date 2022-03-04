@@ -26,8 +26,10 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:scaleType="centerInside"
+                    android:id="@+id/profile"
                     android:src="@drawable/profile" />
 
 
@@ -35,13 +37,14 @@
                     style="@style/q_bold_white_14"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="6"
                     android:text="@string/HISTORY" />
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:scaleType="centerInside"
                     android:src="@drawable/question" />
 
             </LinearLayout>
@@ -180,10 +183,10 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/detailLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:id="@+id/detailLayout"
         android:background="@drawable/history_bg">
 
         <LinearLayout

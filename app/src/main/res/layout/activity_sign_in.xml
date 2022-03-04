@@ -27,6 +27,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/backIcon"
                     android:src="@drawable/ic_baseline_arrow_back_ios_24" />
 
                 <TextView
@@ -76,7 +77,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-
 
 
                     android:layout_width="match_parent"

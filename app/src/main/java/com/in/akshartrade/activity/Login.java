@@ -11,7 +11,7 @@ import com.in.akshartrade.R;
 
 public class Login extends AppCompatActivity {
 
-    Button btnLogin;
+    Button btnLogin, signUp;
 
 
     @Override
@@ -20,14 +20,13 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-
-
         init();
         clickEvent();
     }
 
     public void init() {
         btnLogin = findViewById(R.id.btnLogin);
+        signUp = findViewById(R.id.signUp);
     }
 
     public void clickEvent() {
@@ -38,6 +37,16 @@ public class Login extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), SignIn.class);
                 startActivity(intent);
+//                finish();
+            }
+        });
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(intent);
+//                finish();
             }
         });
     }

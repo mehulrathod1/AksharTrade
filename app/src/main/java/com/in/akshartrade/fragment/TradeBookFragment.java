@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ImageView;
 
 import com.in.akshartrade.Activity.AccountDetailActivity;
@@ -21,15 +20,14 @@ import com.in.akshartrade.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderFragment extends Fragment {
+public class TradeBookFragment extends Fragment {
 
     View view;
-    RecyclerView orderRecycler;
+    RecyclerView tradeRecycler;
     OrderAdapter orderAdapter;
     List<OrderModel> orderList = new ArrayList<>();
 
     ImageView profile;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,8 +37,8 @@ public class OrderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        view = inflater.inflate(R.layout.fragment_order, container, false);
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_trade_book, container, false);
         init();
         clickEvent();
         orderData();
@@ -48,9 +46,9 @@ public class OrderFragment extends Fragment {
     }
 
     public void init() {
-        orderRecycler = view.findViewById(R.id.orderRecycler);
-        profile = view.findViewById(R.id.profile);
 
+        tradeRecycler = view.findViewById(R.id.tradeRecycler);
+            profile = view.findViewById(R.id.profile);
     }
 
     public void clickEvent() {
@@ -67,6 +65,7 @@ public class OrderFragment extends Fragment {
     }
 
     public void orderData() {
+
 
         OrderModel model = new OrderModel("RELIANCE", "₹ 1027.65", "₹ 2027.65", "NSE QTY: 30");
         orderList.add(model);
@@ -88,11 +87,9 @@ public class OrderFragment extends Fragment {
         });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        orderRecycler.setLayoutManager(layoutManager);
+        tradeRecycler.setLayoutManager(layoutManager);
         orderAdapter.notifyDataSetChanged();
-        orderRecycler.setAdapter(orderAdapter);
+        tradeRecycler.setAdapter(orderAdapter);
 
     }
-
-
 }

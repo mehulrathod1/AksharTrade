@@ -6,6 +6,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.in.akshartrade.Adapter.TabCompanyDetailAdapter;
@@ -15,10 +17,11 @@ import com.in.akshartrade.R;
 public class CompanyDetailActivity extends AppCompatActivity {
 
 
-
     TabLayout tabLayout;
     ViewPager viewPager;
 
+    ImageView dialogClose;
+    TextView sellStock,buyStock;
 
 
     @Override
@@ -29,15 +32,17 @@ public class CompanyDetailActivity extends AppCompatActivity {
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         init();
+        clickEvent();
 
     }
 
-
     public void init() {
 
-        tabLayout =findViewById(R.id.tab);
+        tabLayout = findViewById(R.id.tab);
         viewPager = findViewById(R.id.pager);
-
+        dialogClose = findViewById(R.id.dialogClose);
+        buyStock = findViewById(R.id.buyStock);
+        sellStock = findViewById(R.id.sellStock);
 
         tabLayout.addTab(tabLayout.newTab().setText("Overview"));
         tabLayout.addTab(tabLayout.newTab().setText("Option Chain"));
@@ -62,7 +67,30 @@ public class CompanyDetailActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+    }
 
+    public void clickEvent() {
+
+        dialogClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        sellStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        buyStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
 }

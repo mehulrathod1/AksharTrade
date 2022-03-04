@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.Dashboard">
-
+    tools:context=".Fragment.OrderFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,53 +24,27 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/profile"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:id="@+id/profile"
                     android:scaleType="centerInside"
                     android:src="@drawable/profile" />
 
-                <Spinner
-                    android:id="@+id/selectSpn"
+
+                <TextView
+                    style="@style/q_bold_white_14"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/_46sdp"
-                    android:layout_marginTop="@dimen/_1sdp"
-                    android:layout_marginBottom="@dimen/_1sdp"
-                    android:layout_weight="4"
-                    android:dropDownVerticalOffset="40dp"
-                    android:gravity="center"
-                    android:prompt="@string/app_name"
-                    android:spinnerMode="dropdown" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:text="@string/trade_book" />
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
-                    android:src="@drawable/sort" />
-
-                <ImageView
-                    android:id="@+id/watchList"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/pluse" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:layout_marginBottom="@dimen/_16sdp"
-                    android:background="@color/white" />
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/question"
-                    android:scaleType="centerInside"/>
+                    android:src="@drawable/question" />
 
             </LinearLayout>
 
@@ -158,27 +131,48 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tab"
+                <TextView
+                    style="@style/q_semi_blue_16"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_16sdp"
-                    android:layout_marginRight="@dimen/_16sdp"
-                    app:layout_collapseMode="pin"
-                    app:tabGravity="fill"
-                    app:tabMode="fixed"
-                    app:tabTextAppearance="@style/q_reg_blue_12" />
+                    android:layout_height="@dimen/_46sdp"
+                    android:gravity="center"
+                    android:text="@string/trade" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_2sdp"
+                    android:layout_weight="1"
+                    android:background="@color/gray_dark" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_weight="1"
+                    android:background="@color/dark_blue" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_weight="1"
+                    android:background="@color/gray_dark" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/pager"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tradeRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -187,4 +181,5 @@
 
 
     </RelativeLayout>
+
 </RelativeLayout>

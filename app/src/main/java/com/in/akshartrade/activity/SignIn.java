@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.in.akshartrade.R;
 
 public class SignIn extends AppCompatActivity {
 
     Button btnSignIn;
+    ImageView backIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,7 @@ public class SignIn extends AppCompatActivity {
 
     public void init() {
         btnSignIn = findViewById(R.id.btnSignIn);
+        backIcon = findViewById(R.id.backIcon);
     }
 
     public void clickEvent() {
@@ -35,6 +38,14 @@ public class SignIn extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
+                finish();
+            }
+        });
+
+        backIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }

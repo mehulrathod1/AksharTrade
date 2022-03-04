@@ -11,12 +11,13 @@ import android.widget.LinearLayout;
 
 import com.in.akshartrade.Fragment.HistoryFragment;
 import com.in.akshartrade.Fragment.OrderFragment;
+import com.in.akshartrade.Fragment.TradeBookFragment;
 import com.in.akshartrade.R;
 import com.in.akshartrade.Fragment.Dashboard;
 
 public class MainActivity extends AppCompatActivity {
 
-    LinearLayout layoutDashboard, layoutOrder,layoutHistory;
+    LinearLayout layoutDashboard, layoutOrder, layoutHistory, LayoutTradeBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +34,12 @@ public class MainActivity extends AppCompatActivity {
         layoutOrder = findViewById(R.id.LayoutOrder);
         layoutDashboard = findViewById(R.id.LayoutDashboard);
         layoutHistory = findViewById(R.id.LayoutHistory);
+        LayoutTradeBook = findViewById(R.id.LayoutTradeBook);
 
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.mainFrame, new Dashboard());
         transaction.addToBackStack(null);
         transaction.commit();
-
 
 
     }
@@ -72,6 +73,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        LayoutTradeBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                loadFragment(new TradeBookFragment());
+
+            }
+        });
     }
 
     private void loadFragment(Fragment fragment) {
@@ -80,5 +90,11 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.mainFrame, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

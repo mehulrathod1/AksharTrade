@@ -17,6 +17,17 @@
             android:layout_height="@dimen/_36sdp"
             android:background="@color/dark_blue_text">
 
+
+
+            <ImageView
+                android:id="@+id/bookMark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_16sdp"
+                android:src="@drawable/ic_baseline_bookmark_24" />
+
+
             <TextView
                 android:id="@+id/homeCare"
                 style="@style/q_reg_white_16"
@@ -156,6 +167,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/buyStock"
                 style="@style/q_bold_white_14"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -166,11 +178,12 @@
 
 
             <TextView
+                android:id="@+id/sellStock"
                 style="@style/q_bold_white_14"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#DC4F50"
+                android:background="@color/red"
                 android:gravity="center"
                 android:text="@string/SELL" />
         </LinearLayout>

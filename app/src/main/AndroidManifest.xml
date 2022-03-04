@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.in.akshartrade">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -9,6 +11,12 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AksharTrade">
+        <activity
+            android:name=".Activity.WatchListActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.AccountDetailActivity"
+            android:exported="true" />
         <activity
             android:name=".Activity.SignUpActivity"
             android:exported="true" />

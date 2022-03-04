@@ -7,7 +7,16 @@
 
     <string name="Login">LOGIN</string>
     <string name="Login_to">Login to Akshar Trade</string>
+    <string name="SignUp_to">Sign up to Akshar Trade</string>
     <string name="sign_in">SIGN IN</string>
+
+    <!--signUn-->
+    <string name="SignUp">SIGN UP</string>
+
+    <string name="Name">Name</string>
+    <string name="Email">Email</string>
+    <string name="Password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
 
     <!--    home-->
     <string name="Dashboard">Dashboard</string>
@@ -55,5 +64,14 @@
     <string name="Today_Profit">Today\'s Profit &amp; Loss *</string>
     <string name="Profit_Loss">Profit &amp; Loss *</string>
 
+    <!--trade_book-->
+    <string name="trade">TRADE BOOK</string>
 
+    <!--    account-->
+
+    <string name="Account">Account Detail</string>
+    <string name="Mobile">Mobile Number</string>
+
+<!--    watch_list-->
+    <string name="watch_list">Watch List</string>
 </resources>

@@ -49,6 +49,11 @@
         <item name="android:textColor">@color/dark_blue_text</item>
     </style>
 
+    <style name="q_bold_blue_16">
+        <item name="android:fontFamily">@font/quicksand_bold</item>
+        <item name="android:textSize">@dimen/_16sdp</item>
+        <item name="android:textColor">@color/dark_blue_text</item>
+    </style>
     <style name="q_semi_blue_14">
         <item name="android:fontFamily">@font/quicksand_semibold</item>
         <item name="android:textSize">@dimen/_14sdp</item>

@@ -1,5 +1,6 @@
 package com.in.akshartrade.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.in.akshartrade.Activity.AccountDetailActivity;
 import com.in.akshartrade.Adapter.OrderAdapter;
 import com.in.akshartrade.Model.OrderModel;
 import com.in.akshartrade.R;
@@ -24,6 +27,7 @@ public class HistoryFragment extends Fragment {
     OrderAdapter orderAdapter;
     List<OrderModel> orderList = new ArrayList<>();
 
+    ImageView profile;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,14 +39,30 @@ public class HistoryFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_history, container, false);
         init();
+        clickEvent();
+
         orderData();
         return view;
     }
 
+
     public void init() {
+        profile = view.findViewById(R.id.profile);
+
         orderRecycler = view.findViewById(R.id.orderRecycler);
     }
+    public void clickEvent() {
 
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getActivity(), AccountDetailActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
     public void orderData() {
 
         OrderModel model = new OrderModel("RELIANCE", "₹ 1027.65", "₹ 2027.65", "NSE QTY: 30");
@@ -70,4 +90,5 @@ public class HistoryFragment extends Fragment {
         orderRecycler.setAdapter(orderAdapter);
 
     }
+
 }
