@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/dashboard"
+        android:icon="@drawable/dashboard_active"
+        android:enabled="true"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/order"
+        android:icon="@drawable/order_while"
+        android:enabled="true"
+        android:title="Orders" />
+
+    <item
+        android:id="@+id/tradeBook"
+        android:icon="@drawable/book_white"
+        android:enabled="true"
+        android:title="Trade Book" />
+    <item
+        android:id="@+id/history"
+        android:icon="@drawable/wallet_white"
+        android:enabled="true"
+        android:title="History" />
+
+
+</menu>

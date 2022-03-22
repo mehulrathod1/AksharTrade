@@ -2,7 +2,8 @@ package com.in.akshartrade.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,68 +12,41 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.tabs.TabLayout;
-import com.in.akshartrade.Adapter.TabStockAdapter;
+import com.in.akshartrade.Adapter.OrderAdapter;
+import com.in.akshartrade.Model.OrderModel;
 import com.in.akshartrade.R;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
 
+public class OrderActivity extends AppCompatActivity {
 
-    TabLayout tabLayout;
-    ViewPager viewPager;
+    RecyclerView orderRecycler;
+    OrderAdapter orderAdapter;
+    List<OrderModel> orderList = new ArrayList<>();
 
-    ImageView profile, watchList;
+    ImageView profile;
     BottomNavigationView bottomNavigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_order);
         init();
         clickEvent();
-
+        orderData();
     }
 
 
     public void init() {
-
-        tabLayout = findViewById(R.id.tab);
-        viewPager = findViewById(R.id.pager);
+        orderRecycler = findViewById(R.id.orderRecycler);
         profile = findViewById(R.id.profile);
-        watchList = findViewById(R.id.watchList);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
 
-        tabLayout.addTab(tabLayout.newTab().setText("NSE"));
-        tabLayout.addTab(tabLayout.newTab().setText("BSE"));
-        tabLayout.addTab(tabLayout.newTab().setText("MCX"));
-        tabLayout.addTab(tabLayout.newTab().setText("F&O"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-
-        TabStockAdapter tabStockAdapter = new TabStockAdapter(getSupportFragmentManager(), getApplicationContext(), tabLayout.getTabCount());
-
-        viewPager.setAdapter(tabStockAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
-
-        bottomNavigationView.setSelectedItemId(R.id.dashboard);
+        bottomNavigationView.setSelectedItemId(R.id.order);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-
 
 
             @Override
@@ -87,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                         overridePendingTransition(0, 0);
                         break;
+
                     case R.id.order:
 
                         intent = new Intent(getApplicationContext(), OrderActivity.class);
@@ -118,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     public void clickEvent() {
@@ -131,22 +107,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        watchList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    }
+    public void orderData() {
 
-                Intent intent = new Intent(getApplicationContext(), WatchListActivity.class);
-                startActivity(intent);
+        OrderModel model = new OrderModel("RELIANCE", "₹ 1027.65", "₹ 2027.65", "NSE QTY: 30");
+        orderList.add(model);
+        orderList.add(model);
+        orderList.add(model);
+        orderList.add(model);
+        orderList.add(model);
+        orderList.add(model);
+        orderList.add(model);
+        orderList.add(model);
+        orderList.add(model);
+        orderList.add(model);
+
+        orderAdapter = new OrderAdapter(orderList, getApplicationContext(), new OrderAdapter.Click() {
+            @Override
+            public void onItemClick(int position) {
+
             }
         });
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        orderRecycler.setLayoutManager(layoutManager);
+        orderAdapter.notifyDataSetChanged();
+        orderRecycler.setAdapter(orderAdapter);
+
     }
-
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
-
 
 }

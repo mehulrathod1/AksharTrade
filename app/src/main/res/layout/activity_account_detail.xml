@@ -55,6 +55,7 @@
                     android:src="@drawable/login_bg" />
 
                 <TextView
+                    android:id="@+id/userName"
                     style="@style/q_bold_blue_16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -79,10 +80,12 @@
                     style="@style/q_semi_blue_14"
                     android:text="@string/Email"/>
 
-                <TextView
+                <EditText
+                    android:id="@+id/userEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/q_bold_blue_14"
+                    android:backgroundTint="@color/white"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:text="abc@gmail.com"/>
 
@@ -98,10 +101,12 @@
                     style="@style/q_semi_blue_14"
                     android:text="@string/Mobile"/>
 
-                <TextView
+                <EditText
+                    android:id="@+id/userMobileNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/q_bold_blue_14"
+                    android:backgroundTint="@color/white"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:text="0987654321"/>
 
