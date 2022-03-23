@@ -25,7 +25,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+
 }
+
 
 dependencies {
 
@@ -46,6 +49,13 @@ dependencies {
 //    retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // mpChart
+
+    implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
+
+
+
 
 
 }

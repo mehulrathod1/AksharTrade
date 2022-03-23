@@ -9,7 +9,7 @@ public class Glob {
     public static ProgressDialog dialog;
     public static String  userId;
     public static String token = "123456789";
-
+public static String TAG = "MYAPP";
 
 
 

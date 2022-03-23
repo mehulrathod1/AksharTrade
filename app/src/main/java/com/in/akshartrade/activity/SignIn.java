@@ -7,6 +7,7 @@ import static com.in.akshartrade.Utils.Glob.userId;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -100,6 +101,13 @@ public class SignIn extends AppCompatActivity {
 
                 userId = model.getUser_id();
                 dialog.dismiss();
+
+                SharedPreferences.Editor editor = getSharedPreferences("MyPref", MODE_PRIVATE).edit();
+                editor.putString("token", "123456789");
+                editor.putString("id", userId);
+                editor.apply();
+                editor.commit();
+
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
