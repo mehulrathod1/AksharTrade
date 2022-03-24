@@ -54,6 +54,11 @@ dependencies {
 
     implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
 
+//    liveData
+
+//    implementation "androidx.lifecycle:lifecycle-livedata:2.5.0"
+//    implementation "androidx.lifecycle:lifecycle-viewmodel:2.5.0"
+
 
 
 

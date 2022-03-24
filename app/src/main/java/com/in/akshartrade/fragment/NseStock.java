@@ -1,5 +1,8 @@
 package com.in.akshartrade.Fragment;
 
+import static com.in.akshartrade.Utils.Glob.token;
+import static com.in.akshartrade.Utils.Glob.userId;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -7,17 +10,26 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.in.akshartrade.Dialog.CompanyDetailActivity;
+import com.in.akshartrade.Model.StockDetailModel;
 import com.in.akshartrade.R;
 import com.in.akshartrade.Adapter.NseStockAdapter;
 import com.in.akshartrade.Model.NseStockModel;
+import com.in.akshartrade.Utils.Api;
+import com.in.akshartrade.Utils.Glob;
+import com.in.akshartrade.Utils.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NseStock extends Fragment {
 
@@ -39,6 +51,7 @@ public class NseStock extends Fragment {
 
         init();
         nseListData();
+        getNseData(token,userId);
 
         return view;
 
@@ -79,5 +92,45 @@ public class NseStock extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         stockRecycler.setLayoutManager(layoutManager);
         stockRecycler.setAdapter(nseStockAdapter);
+    }
+
+    public void getNseData(String token, String user_id) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+
+
+        call.getNseData(token, user_id).enqueue(new Callback<StockDetailModel>() {
+            @Override
+            public void onResponse(Call<StockDetailModel> call, Response<StockDetailModel> response) {
+
+                StockDetailModel stockDetailModel = response.body();
+
+                List<StockDetailModel.StockDetail> dataList = stockDetailModel.getStockDetailList();
+
+                for (int i = 0; i < dataList.size(); i++) {
+
+                    StockDetailModel.StockDetail model = dataList.get(i);
+
+                    StockDetailModel.StockDetail data = new StockDetailModel.StockDetail(
+
+                            model.getInstrument_token(),
+                            model.getExchange_token(),
+                            model.getName(),
+                            model.getLast_price(),
+                            model.getTick_size(),
+                            model.getLot_size(),
+                            model.getInstrument_type(),
+                            model.getSegment()
+                    );
+
+                    Log.e("data", "onResponse: "+model.getExchange_token() );
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StockDetailModel> call, Throwable t) {
+
+            }
+        });
     }
 }

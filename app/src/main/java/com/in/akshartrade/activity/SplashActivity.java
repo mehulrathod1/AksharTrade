@@ -39,7 +39,6 @@ public class SplashActivity extends AppCompatActivity {
             moveNext(Login.class);
         }
 
-
     }
 
 
