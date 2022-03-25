@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager viewPager;
-
+    TextView txt_Search;
     ImageView profile, watchList;
     BottomNavigationView bottomNavigationView;
 
@@ -41,18 +42,18 @@ public class MainActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.pager);
         profile = findViewById(R.id.profile);
         watchList = findViewById(R.id.watchList);
+        txt_Search = findViewById(R.id.txt_Search);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
 
-        tabLayout.addTab(tabLayout.newTab().setText("NSE"));
-        tabLayout.addTab(tabLayout.newTab().setText("BSE"));
-        tabLayout.addTab(tabLayout.newTab().setText("MCX"));
-        tabLayout.addTab(tabLayout.newTab().setText("F&O"));
+        tabLayout.addTab(tabLayout.newTab().setText("WatchList 1"));
+        tabLayout.addTab(tabLayout.newTab().setText("WatchList 2"));
+        tabLayout.addTab(tabLayout.newTab().setText("WatchList 3"));
+        tabLayout.addTab(tabLayout.newTab().setText("WatchList 4"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
         TabStockAdapter tabStockAdapter = new TabStockAdapter(getSupportFragmentManager(), getApplicationContext(), tabLayout.getTabCount());
-
         viewPager.setAdapter(tabStockAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -69,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
         bottomNavigationView.setSelectedItemId(R.id.dashboard);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -118,6 +118,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        txt_Search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(intent);
+
+            }
+        });
     }
 
     public void clickEvent() {

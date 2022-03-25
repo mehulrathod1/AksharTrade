@@ -1,6 +1,8 @@
 package com.in.akshartrade.Utils;
 
+import com.in.akshartrade.Model.CommonModel;
 import com.in.akshartrade.Model.LoginModel;
+import com.in.akshartrade.Model.SearchModel;
 import com.in.akshartrade.Model.StockDetailModel;
 import com.in.akshartrade.Model.UserProfileModel;
 
@@ -26,25 +28,30 @@ public interface Api {
             @Field("user_id") String user_id
     );
 
+
     @FormUrlEncoded
-    @POST("get_nse_data")
-    Call<StockDetailModel> getNseData(
+    @POST("search_api")
+    Call<SearchModel> getSearchData(
             @Field("token") String token,
-            @Field("user_id") String user_id
+            @Field("user_id") String user_id,
+            @Field("search_keyword") String search_keyword
     );
 
     @FormUrlEncoded
-    @POST("get_bse_data")
-    Call<StockDetailModel> getBseData(
+    @POST("add_to_watchlist")
+    Call<CommonModel> addToWatchlist(
+
             @Field("token") String token,
-            @Field("user_id") String user_id
+            @Field("user_id") String user_id,
+            @Field("instrument_token") String instrument_token
     );
 
     @FormUrlEncoded
-    @POST("get_mcx_data")
-    Call<StockDetailModel> getMcxData(
-            @Field("token") String token,
-            @Field("user_id") String user_id
-    );
+    @POST("remove_in_watchlist")
+    Call<CommonModel> removeFromWatchlist(
 
+            @Field("token") String token,
+            @Field("user_id") String user_id,
+            @Field("instrument_token") String instrument_token
+    );
 }

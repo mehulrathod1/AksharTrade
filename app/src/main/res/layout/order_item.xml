@@ -69,15 +69,15 @@
                     style="@style/q_reg_gray_dark_10"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:layout_gravity="center_vertical"
                     android:text="@string/LTP" />
 
                 <TextView
 
-                    style="@style/q_semi_blue_16"
                     android:id="@+id/ltpPrice"
+                    style="@style/q_semi_blue_16"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -96,15 +96,15 @@
                     style="@style/q_reg_gray_dark_10"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:layout_gravity="center_vertical"
                     android:text="@string/PL" />
 
                 <TextView
 
-                    style="@style/q_semi_blue_16"
                     android:id="@+id/plPrice"
+                    style="@style/q_semi_blue_16"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

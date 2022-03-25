@@ -9,7 +9,9 @@
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/drawable/ic_baseline_bookmark_24.xml" value="0.2203125" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/drawable/ic_baseline_bookmark_rad.xml" value="0.2203125" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.2203125" />
+        <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/drawable/ic_baseline_keyboard_backspace_24.xml" value="0.16" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2203125" />
+        <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/drawable/ic_outline_search_24.xml" value="0.16" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/drawable/login_edt_bg.xml" value="0.2203125" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/drawable/squre_edt_bg.xml" value="0.2203125" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/drawable/tab_item_selected.xml" value="0.2203125" />
@@ -21,6 +23,7 @@
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/activity_login2.xml" value="0.19010416666666666" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/activity_order.xml" value="0.20416666666666666" />
+        <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/activity_search.xml" value="0.20416666666666666" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/activity_sign_in.xml" value="0.18" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/activity_sign_up.xml" value="0.20416666666666666" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/activity_splash.xml" value="0.20416666666666666" />
@@ -40,6 +43,7 @@
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/optional_chain_item.xml" value="0.20416666666666666" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/optional_chain_reverce.xml" value="0.20416666666666666" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/order_item.xml" value="0.22" />
+        <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/search_item.xml" value="0.20416666666666666" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/layout/stock_data_item.xml" value="0.20416666666666666" />
         <entry key="..\:/NotionInfosoftProject/Akshar/app/src/main/res/menu/bottom_menu.xml" value="0.20416666666666666" />
       </map>

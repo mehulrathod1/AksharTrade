@@ -12,14 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AksharTrade">
         <activity
+            android:name=".Activity.SearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.SplashActivity"
             android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Activity.HistoryActivity"
@@ -52,9 +54,7 @@
             android:exported="true" />
         <activity
             android:name=".Activity.Login"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>
