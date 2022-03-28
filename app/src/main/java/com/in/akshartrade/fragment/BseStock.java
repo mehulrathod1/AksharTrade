@@ -39,7 +39,7 @@ public class BseStock extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_bse_stock, container, false);
         init();
-        nseListData();
+//        nseListData();
         return view;
     }
 
@@ -47,30 +47,30 @@ public class BseStock extends Fragment {
         stockRecycler = view.findViewById(R.id.recyclerview);
     }
 
-    public void nseListData() {
-
-
-        NseStockModel model = new NseStockModel("RELIANCE", "NSE EQ", "₹ 2089.05", "- 45.20", " (2.12%)");
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-
-        nseStockAdapter = new NseStockAdapter(nseStockModelList, getContext(), new NseStockAdapter.Click() {
-            @Override
-            public void onItemClick(int position) {
-
-                Intent intent = new Intent(getContext(), CompanyDetailActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        stockRecycler.setLayoutManager(layoutManager);
-        stockRecycler.setAdapter(nseStockAdapter);
-    }
+//    public void nseListData() {
+//
+//
+//        NseStockModel model = new NseStockModel("RELIANCE", "NSE EQ", "₹ 2089.05", "- 45.20", " (2.12%)");
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//
+//        nseStockAdapter = new NseStockAdapter(nseStockModelList, getContext(), new NseStockAdapter.Click() {
+//            @Override
+//            public void onItemClick(int position) {
+//
+//                Intent intent = new Intent(getContext(), CompanyDetailActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+//        stockRecycler.setLayoutManager(layoutManager);
+//        stockRecycler.setAdapter(nseStockAdapter);
+//    }
 }

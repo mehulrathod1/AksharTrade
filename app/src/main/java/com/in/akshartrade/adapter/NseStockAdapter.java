@@ -9,14 +9,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.in.akshartrade.Model.WatchListModel;
 import com.in.akshartrade.R;
 import com.in.akshartrade.Model.NseStockModel;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class NseStockAdapter extends RecyclerView.Adapter<NseStockAdapter.ViewHolder> {
 
-    List<NseStockModel> list;
+    List<WatchListModel.WatchListData> list;
     Context context;
     Click click;
 
@@ -25,7 +27,7 @@ public class NseStockAdapter extends RecyclerView.Adapter<NseStockAdapter.ViewHo
         public void onItemClick(int position);
     }
 
-    public NseStockAdapter(List<NseStockModel> list, Context context, Click click) {
+    public NseStockAdapter(List<WatchListModel.WatchListData> list, Context context, Click click) {
         this.list = list;
         this.context = context;
         this.click = click;
@@ -45,13 +47,16 @@ public class NseStockAdapter extends RecyclerView.Adapter<NseStockAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        NseStockModel model = list.get(position);
+        WatchListModel.WatchListData model = list.get(position);
 
-        holder.companyName.setText(model.getCompanyName());
-        holder.livePercentage.setText(model.getLivePercentage());
-        holder.livePrice.setText(model.getLivePrice());
-        holder.stockPrice.setText(model.getStockPrice());
-        holder.stockCategory.setText(model.getStockCategory());
+        double lastPriceValue = Double.parseDouble(model.getChart_data().getLast_price());
+
+
+
+        holder.companyName.setText(model.getName());
+        holder.stockCategory.setText(model.getExchange());
+        holder.stockPrice.setText(new DecimalFormat("##.##").format(lastPriceValue));
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

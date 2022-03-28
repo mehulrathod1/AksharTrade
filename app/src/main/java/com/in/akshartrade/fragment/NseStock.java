@@ -1,5 +1,6 @@
 package com.in.akshartrade.Fragment;
 
+import static com.in.akshartrade.Utils.Glob.dialog;
 import static com.in.akshartrade.Utils.Glob.token;
 import static com.in.akshartrade.Utils.Glob.userId;
 
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 
 import com.in.akshartrade.Dialog.CompanyDetailActivity;
 import com.in.akshartrade.Model.StockDetailModel;
+import com.in.akshartrade.Model.WatchListModel;
 import com.in.akshartrade.R;
 import com.in.akshartrade.Adapter.NseStockAdapter;
 import com.in.akshartrade.Model.NseStockModel;
@@ -36,7 +38,7 @@ public class NseStock extends Fragment {
     View view;
     RecyclerView stockRecycler;
     NseStockAdapter nseStockAdapter;
-    List<NseStockModel> nseStockModelList = new ArrayList<>();
+    List<WatchListModel.WatchListData> nseStockModelList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,40 +52,72 @@ public class NseStock extends Fragment {
         view = inflater.inflate(R.layout.fragment_nse_stock, container, false);
 
         init();
-        nseListData();
+        getWatchList(token, userId);
 
 
         return view;
 
-//        Dialog dialog = new Dialog(context, android.R.style.Theme_Light);
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog.setContentView(R.layout.MyCustomDialogLayout);
-//        dialog.show();
 
     }
 
     public void init() {
+        Glob.progressDialog(getContext());
         stockRecycler = view.findViewById(R.id.recyclerview);
+
+    }
+
+
+    public void getWatchList(String token, String userId) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+        dialog.show();
+
+
+        call.getWatchList(token, userId).enqueue(new Callback<WatchListModel>() {
+            @Override
+            public void onResponse(Call<WatchListModel> call, Response<WatchListModel> response) {
+
+                nseStockModelList.clear();
+                WatchListModel watchListModel = response.body();
+
+                List<WatchListModel.WatchListData> dataList = watchListModel.getWatchListDataList();
+
+                for (int i = 0; i < dataList.size(); i++) {
+
+                    WatchListModel.WatchListData model = dataList.get(i);
+
+                    WatchListModel.WatchListData data = new WatchListModel.WatchListData(
+                            model.getInstrument_token(),
+                            model.getExchange_token(),
+                            model.getTradingsymbol(),
+                            model.getName(),
+                            model.getExchange(),model.getChart_data()
+                    );
+                    nseStockModelList.add(data);
+
+                }
+                nseListData();
+                dialog.dismiss();
+
+            }
+
+            @Override
+            public void onFailure(Call<WatchListModel> call, Throwable t) {
+
+            }
+        });
     }
 
     public void nseListData() {
 
 
-        NseStockModel model = new NseStockModel("RELIANCE", "NSE EQ", "₹ 2089.05", "- 45.20", " (2.12%)");
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-
         nseStockAdapter = new NseStockAdapter(nseStockModelList, getContext(), new NseStockAdapter.Click() {
             @Override
             public void onItemClick(int position) {
 
+                String instrumentToken = nseStockModelList.get(position).getInstrument_token();
                 Intent intent = new Intent(getContext(), CompanyDetailActivity.class);
+                intent.putExtra("instrumentToken",instrumentToken);
                 startActivity(intent);
 
             }

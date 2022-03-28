@@ -32,7 +32,7 @@ public class WatchListActivity extends AppCompatActivity {
 
         init();
         clickEvent();
-        watchListData();
+//        watchListData();
     }
 
     public void init() {
@@ -49,34 +49,34 @@ public class WatchListActivity extends AppCompatActivity {
             }
         });
     }
-    public void watchListData() {
-
-        NseStockModel model = new NseStockModel("RELIANCE", "NSE EQ", "₹ 2089.05", "- 45.20", " (2.12%)");
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-        nseStockModelList.add(model);
-
-        nseStockAdapter = new NseStockAdapter(nseStockModelList, getApplicationContext(), new NseStockAdapter.Click() {
-            @Override
-            public void onItemClick(int position) {
-
-
-                Intent intent = new Intent(getApplicationContext(), CompanyDetailActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        stockRecycler.setLayoutManager(layoutManager);
-        stockRecycler.setAdapter(nseStockAdapter);
-    }
+//    public void watchListData() {
+//
+//        NseStockModel model = new NseStockModel("RELIANCE", "NSE EQ", "₹ 2089.05", "- 45.20", " (2.12%)");
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//        nseStockModelList.add(model);
+//
+//        nseStockAdapter = new NseStockAdapter(nseStockModelList, getApplicationContext(), new NseStockAdapter.Click() {
+//            @Override
+//            public void onItemClick(int position) {
+//
+//
+//                Intent intent = new Intent(getApplicationContext(), CompanyDetailActivity.class);
+//                startActivity(intent);
+//
+//            }
+//        });
+//
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+//        stockRecycler.setLayoutManager(layoutManager);
+//        stockRecycler.setAdapter(nseStockAdapter);
+//    }
 }

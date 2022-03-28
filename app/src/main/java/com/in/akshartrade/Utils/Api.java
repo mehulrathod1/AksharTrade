@@ -1,10 +1,12 @@
 package com.in.akshartrade.Utils;
 
 import com.in.akshartrade.Model.CommonModel;
+import com.in.akshartrade.Model.CompanyDetailModel;
 import com.in.akshartrade.Model.LoginModel;
 import com.in.akshartrade.Model.SearchModel;
 import com.in.akshartrade.Model.StockDetailModel;
 import com.in.akshartrade.Model.UserProfileModel;
+import com.in.akshartrade.Model.WatchListModel;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -53,5 +55,23 @@ public interface Api {
             @Field("token") String token,
             @Field("user_id") String user_id,
             @Field("instrument_token") String instrument_token
+    );
+
+
+    @FormUrlEncoded
+    @POST("get_share_details")
+    Call<CompanyDetailModel> getCompanyDetail(
+
+            @Field("token") String token,
+            @Field("user_id") String user_id,
+            @Field("instrument_token") String instrument_token
+    );
+
+    @FormUrlEncoded
+    @POST("get_watch_list")
+    Call<WatchListModel> getWatchList(
+
+            @Field("token") String token,
+            @Field("user_id") String user_id
     );
 }

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.in.akshartrade.Adapter.SearchAdapter;
+import com.in.akshartrade.Dialog.CompanyDetailActivity;
 import com.in.akshartrade.Model.CommonModel;
 import com.in.akshartrade.Model.SearchModel;
 import com.in.akshartrade.R;
@@ -64,6 +66,7 @@ public class SearchActivity extends AppCompatActivity {
         back = findViewById(R.id.back);
 
         clearSearch.setVisibility(View.GONE);
+
         clearSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,12 +75,14 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+
         edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -156,6 +161,11 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void itemCLick(int position) {
 
+
+                String instrumentToken = searchList.get(position).getInstrument_token();
+                Intent intent = new Intent(getApplicationContext(), CompanyDetailActivity.class);
+                intent.putExtra("instrumentToken",instrumentToken);
+                startActivity(intent);
             }
 
             @Override
@@ -163,9 +173,9 @@ public class SearchActivity extends AppCompatActivity {
 
                 String instrumentToken = searchList.get(position).getInstrument_token();
 
-//                addToWatchlist(token, userId, instrumentToken);
+                addToWatchlist(token, userId, instrumentToken);
 
-                removeFromWatchlist(token,userId,instrumentToken);
+//                removeFromWatchlist(token,userId,instrumentToken);
             }
         });
 
@@ -204,29 +214,5 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    public void removeFromWatchlist(String token, String userId, String instrumentToken){
-
-
-        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
-        dialog.show();
-
-        call.removeFromWatchlist(token,userId,instrumentToken).enqueue(new Callback<CommonModel>() {
-            @Override
-            public void onResponse(Call<CommonModel> call, Response<CommonModel> response) {
-
-                CommonModel commonModel = response.body();
-
-                Toast.makeText(SearchActivity.this, "" + commonModel.getMessage(), Toast.LENGTH_SHORT).show();
-
-                dialog.dismiss();
-
-            }
-
-            @Override
-            public void onFailure(Call<CommonModel> call, Throwable t) {
-
-            }
-        });
-    }
 
 }
