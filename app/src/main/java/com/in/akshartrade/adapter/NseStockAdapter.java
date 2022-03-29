@@ -1,6 +1,7 @@
 package com.in.akshartrade.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,14 @@ import com.in.akshartrade.R;
 import com.in.akshartrade.Model.NseStockModel;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
+
+import lecho.lib.hellocharts.gesture.ZoomType;
+import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.model.LineChartData;
+import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.view.LineChartView;
 
 public class NseStockAdapter extends RecyclerView.Adapter<NseStockAdapter.ViewHolder> {
 
@@ -51,11 +59,24 @@ public class NseStockAdapter extends RecyclerView.Adapter<NseStockAdapter.ViewHo
 
         double lastPriceValue = Double.parseDouble(model.getChart_data().getLast_price());
 
-
-
         holder.companyName.setText(model.getName());
         holder.stockCategory.setText(model.getExchange());
         holder.stockPrice.setText(new DecimalFormat("##.##").format(lastPriceValue));
+
+
+//        List<PointValue> values = new ArrayList<PointValue>();
+//        values.add(new PointValue(0, 2));
+//        values.add(new PointValue(1, 4));
+//        values.add(new PointValue(2, 3));
+//        values.add(new PointValue(3, 4));
+//
+//        Line line = new Line(values).setColor(Color.BLUE).setCubic(true);
+//        List<Line> lines = new ArrayList<Line>();
+//        lines.add(line);
+//
+//        LineChartData data = new LineChartData();
+//        data.setLines(lines);
+
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +97,8 @@ public class NseStockAdapter extends RecyclerView.Adapter<NseStockAdapter.ViewHo
 
         TextView companyName, stockCategory, stockPrice, livePrice, livePercentage;
 
+        LineChartView lineChart = new LineChartView(context);
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -84,7 +107,7 @@ public class NseStockAdapter extends RecyclerView.Adapter<NseStockAdapter.ViewHo
             stockPrice = itemView.findViewById(R.id.stockPrice);
             livePrice = itemView.findViewById(R.id.livePrice);
             livePercentage = itemView.findViewById(R.id.livePercentage);
-
+            lineChart = itemView.findViewById(R.id.lineChart);
         }
     }
 }

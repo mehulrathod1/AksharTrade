@@ -8,12 +8,19 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.resources.TextAppearance;
+import com.in.akshartrade.Dialog.CompanyDetailActivity;
+import com.in.akshartrade.Model.AddOrderModel;
+import com.in.akshartrade.Model.CommonModel;
 import com.in.akshartrade.Model.CompanyDetailModel;
 import com.in.akshartrade.R;
 import com.in.akshartrade.Utils.Api;
@@ -31,8 +38,10 @@ public class CompanyOverviewFragment extends Fragment {
 
     View view;
 
-    TextView volume, bid, ask, openInterest, atp, lowerCircuit, open, high, low, close, upperCircuit;
+    TextView volume, bid, ask, openInterest, atp, lowerCircuit, open, high, low, close, upperCircuit,
+            quantity, totalPrice,buyStock,sellStock;
 
+    String instrumentToken,companyName,exchange;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +77,58 @@ public class CompanyOverviewFragment extends Fragment {
         low = view.findViewById(R.id.low);
         close = view.findViewById(R.id.close);
         upperCircuit = view.findViewById(R.id.upperCircuit);
+        quantity = view.findViewById(R.id.quantity);
+        totalPrice = view.findViewById(R.id.totalPrice);
+        buyStock = view.findViewById(R.id.buyStock);
+        sellStock = view.findViewById(R.id.sellStock);
+        quantity.setText("1");
+
+        quantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+//                if (charSequence.length() != 0) {
+//                    String totalQuantity = quantity.getText().toString();
+//                    double o = Double.parseDouble(totalQuantity);
+//                    String price = totalPrice.getText().toString();
+//                    double priceInDouble = Double.parseDouble(price);
+//
+//                    double stockWisePrice = o * priceInDouble;
+//
+//                    String lastPrice = String.valueOf(stockWisePrice);
+//                    totalPrice.setText(lastPrice);
+//
+//                    Log.e("onTextChanged", "onTextChanged: " + stockWisePrice + "-------" + totalQuantity);
+//                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        buyStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                addShareOrder(token,userId,
+                        instrumentToken,
+                        "Q",
+                        quantity.getText().toString(),
+                        totalPrice.getText().toString(),
+                        "market",
+                        companyName,
+                        exchange,
+                        "0"
+                );
+            }
+        });
 
     }
 
@@ -92,6 +153,7 @@ public class CompanyOverviewFragment extends Fragment {
                 double closeValue = Double.parseDouble(historicalData.getClose());
                 double lowerCircuitValue = Double.parseDouble(historicalData.getLower_circuit_limit());
                 double upperCircuitValue = Double.parseDouble(historicalData.getUpper_circuit_limit());
+                double stockPriceValue = Double.parseDouble(historicalData.getLast_price());
 
                 volume.setText(new DecimalFormat("##.##").format(volumeValue));
                 open.setText(new DecimalFormat("##.##").format(openValue));
@@ -100,14 +162,11 @@ public class CompanyOverviewFragment extends Fragment {
                 close.setText(new DecimalFormat("##.##").format(closeValue));
                 lowerCircuit.setText(new DecimalFormat("##.##").format(lowerCircuitValue));
                 upperCircuit.setText(new DecimalFormat("##.##").format(upperCircuitValue));
+                totalPrice.setText(new DecimalFormat("##.##").format(stockPriceValue));
 
-
-//                volume.setText(historicalData.getVolume());
-//                open.setText(historicalData.getOpen());
-//                high.setText(historicalData.getHigh());
-//                low.setText(historicaDlata.getLow());
-//                close.setText(historicalData.getClose());
-
+                instrumentToken = companyData.getInstrument_token();
+                companyName = companyData.getName();
+                exchange = companyData.getExchange();
 
                 dialog.dismiss();
             }
@@ -120,4 +179,31 @@ public class CompanyOverviewFragment extends Fragment {
         });
     }
 
+    public void addShareOrder(String token, String user_id, String instrument_token,
+                              String stake, String quantity, String price, String order_type,
+                              String name, String exchange,
+                              String lot_size) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+        dialog.show();
+
+        call.addShareOrder(token, user_id, instrument_token, stake, quantity, price, order_type,
+                name, exchange, lot_size).enqueue(new Callback<AddOrderModel>() {
+            @Override
+            public void onResponse(Call<AddOrderModel> call, Response<AddOrderModel> response) {
+
+                AddOrderModel commonModel = response.body();
+
+                Toast.makeText(getContext(), "" + commonModel.getMessage(), Toast.LENGTH_SHORT).show();
+
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<AddOrderModel> call, Throwable t) {
+
+                dialog.dismiss();
+            }
+        });
+    }
 }

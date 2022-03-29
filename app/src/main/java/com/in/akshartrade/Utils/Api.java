@@ -1,8 +1,10 @@
 package com.in.akshartrade.Utils;
 
+import com.in.akshartrade.Model.AddOrderModel;
 import com.in.akshartrade.Model.CommonModel;
 import com.in.akshartrade.Model.CompanyDetailModel;
 import com.in.akshartrade.Model.LoginModel;
+import com.in.akshartrade.Model.OrderModel;
 import com.in.akshartrade.Model.SearchModel;
 import com.in.akshartrade.Model.StockDetailModel;
 import com.in.akshartrade.Model.UserProfileModel;
@@ -70,6 +72,32 @@ public interface Api {
     @FormUrlEncoded
     @POST("get_watch_list")
     Call<WatchListModel> getWatchList(
+
+            @Field("token") String token,
+            @Field("user_id") String user_id
+    );
+
+
+    @FormUrlEncoded
+    @POST("add_share_order")
+    Call<AddOrderModel> addShareOrder(
+
+            @Field("token") String token,
+            @Field("user_id") String user_id,
+            @Field("instrument_token") String instrument_token,
+            @Field("stake") String stake,
+            @Field("quantity") String quantity,
+            @Field("price") String price,
+            @Field("orders") String order_type,
+            @Field("name") String name,
+            @Field("exchange") String exchange,
+            @Field("lot_size") String lot_size
+    );
+
+
+    @FormUrlEncoded
+    @POST("get_order_list")
+    Call<OrderModel> getOrder(
 
             @Field("token") String token,
             @Field("user_id") String user_id

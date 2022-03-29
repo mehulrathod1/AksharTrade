@@ -53,6 +53,7 @@ public class NseStock extends Fragment {
 
         init();
         getWatchList(token, userId);
+//        nseListData();
 
 
         return view;

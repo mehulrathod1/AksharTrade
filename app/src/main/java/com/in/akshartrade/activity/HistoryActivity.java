@@ -23,7 +23,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     RecyclerView orderRecycler;
     OrderAdapter orderAdapter;
-    List<OrderModel> orderList = new ArrayList<>();
+    List<OrderModel.OrderData> orderList = new ArrayList<>();
 
     ImageView profile;
     BottomNavigationView bottomNavigationView;
@@ -109,17 +109,6 @@ public class HistoryActivity extends AppCompatActivity {
     }
     public void orderData() {
 
-        OrderModel model = new OrderModel("RELIANCE", "₹ 1027.65", "₹ 2027.65", "NSE QTY: 30");
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
 
         orderAdapter = new OrderAdapter(orderList, getApplicationContext(), new OrderAdapter.Click() {
             @Override
@@ -132,6 +121,18 @@ public class HistoryActivity extends AppCompatActivity {
         orderRecycler.setLayoutManager(layoutManager);
         orderAdapter.notifyDataSetChanged();
         orderRecycler.setAdapter(orderAdapter);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent intent;
+        intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(0, 0);
+        super.onBackPressed();
 
     }
 }

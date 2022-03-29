@@ -1,6 +1,7 @@
 package com.in.akshartrade.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.in.akshartrade.Model.OrderModel;
 import com.in.akshartrade.R;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
-    List<OrderModel> list;
+    List<OrderModel.OrderData> list;
     Context context;
     Click click;
 
@@ -23,7 +25,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         void onItemClick(int position);
     }
 
-    public OrderAdapter(List<OrderModel> list, Context context, Click click) {
+    public OrderAdapter(List<OrderModel.OrderData> list, Context context, Click click) {
         this.list = list;
         this.context = context;
         this.click = click;
@@ -42,13 +44,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        OrderModel model = list.get(position);
+        OrderModel.OrderData model = list.get(position);
 
-        holder.companyName.setText(model.getCompanyName());
-        holder.stockCategory.setText(model.getStockCategory());
-        holder.ltpPrice.setText(model.getLtpPrice());
-        holder.plPrice.setText(model.getPlPrice());
+        double LTP = Double.parseDouble(model.getLTP());
+        double PL = Double.parseDouble(model.getpAndL());
 
+        holder.companyName.setText(model.getName());
+        holder.stockCategory.setText(model.getExchange() + "  QTY "+model.getQTY());
+        holder.ltpPrice.setText(new DecimalFormat("##.##").format(LTP));
+//        holder.plPrice.setText(new DecimalFormat("##.##").format(PL));
+
+        holder.plPrice.setText(model.getpAndL());
+
+        Log.e("PL", "onBindViewHolder: "+PL );
     }
 
     @Override

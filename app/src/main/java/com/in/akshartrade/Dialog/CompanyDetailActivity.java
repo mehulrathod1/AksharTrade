@@ -38,7 +38,7 @@ public class CompanyDetailActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
 
-    ImageView dialogClose,bookMark;
+    ImageView dialogClose, bookMark;
     TextView sellStock, buyStock, tradingSymbol, companyName, stockPrice, exchange;
 
 
@@ -49,7 +49,7 @@ public class CompanyDetailActivity extends AppCompatActivity {
         this.setFinishOnTouchOutside(false);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-        Intent intent  = getIntent();
+        Intent intent = getIntent();
         String instrumentToken = intent.getStringExtra("instrumentToken");
         Glob.instrumentalToken = instrumentToken;
 
@@ -101,7 +101,7 @@ public class CompanyDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                removeFromWatchlist(token,userId,Glob.instrumentalToken);
+                removeFromWatchlist(token, userId, Glob.instrumentalToken);
             }
         });
     }
@@ -179,13 +179,14 @@ public class CompanyDetailActivity extends AppCompatActivity {
             }
         });
     }
-    public void removeFromWatchlist(String token, String userId, String instrumentToken){
+
+    public void removeFromWatchlist(String token, String userId, String instrumentToken) {
 
 
         Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
         dialog.show();
 
-        call.removeFromWatchlist(token,userId,instrumentToken).enqueue(new Callback<CommonModel>() {
+        call.removeFromWatchlist(token, userId, instrumentToken).enqueue(new Callback<CommonModel>() {
             @Override
             public void onResponse(Call<CommonModel> call, Response<CommonModel> response) {
 
@@ -203,5 +204,6 @@ public class CompanyDetailActivity extends AppCompatActivity {
             }
         });
     }
+
 
 }

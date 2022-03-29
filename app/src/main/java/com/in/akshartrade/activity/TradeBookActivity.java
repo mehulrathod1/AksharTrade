@@ -23,7 +23,7 @@ public class TradeBookActivity extends AppCompatActivity {
 
     RecyclerView tradeRecycler;
     OrderAdapter orderAdapter;
-    List<OrderModel> orderList = new ArrayList<>();
+    List<OrderModel.OrderData> orderList = new ArrayList<>();
     BottomNavigationView bottomNavigationView;
 
     ImageView profile;
@@ -112,17 +112,7 @@ public class TradeBookActivity extends AppCompatActivity {
     public void orderData() {
 
 
-        OrderModel model = new OrderModel("RELIANCE", "₹ 1027.65", "₹ 2027.65", "NSE QTY: 30");
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
+
 
         orderAdapter = new OrderAdapter(orderList, getApplicationContext(), new OrderAdapter.Click() {
             @Override
@@ -135,6 +125,18 @@ public class TradeBookActivity extends AppCompatActivity {
         tradeRecycler.setLayoutManager(layoutManager);
         orderAdapter.notifyDataSetChanged();
         tradeRecycler.setAdapter(orderAdapter);
+
+    }
+    @Override
+    public void onBackPressed() {
+
+        Intent intent;
+        intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(0, 0);
+        super.onBackPressed();
+
 
     }
 }

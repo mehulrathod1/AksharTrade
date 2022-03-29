@@ -73,8 +73,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.dashboard);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-
-
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Intent intent;
@@ -87,21 +85,21 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                         overridePendingTransition(0, 0);
                         break;
+
                     case R.id.order:
 
                         intent = new Intent(getApplicationContext(), OrderActivity.class);
                         startActivity(intent);
                         finish();
                         overridePendingTransition(0, 0);
-
                         break;
+
                     case R.id.tradeBook:
 
                         intent = new Intent(getApplicationContext(), TradeBookActivity.class);
                         startActivity(intent);
                         finish();
                         overridePendingTransition(0, 0);
-
                         break;
 
                     case R.id.history:
@@ -111,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                         overridePendingTransition(0, 0);
-
                         break;
                 }
                 return true;

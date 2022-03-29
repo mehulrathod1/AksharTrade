@@ -1,5 +1,9 @@
 package com.in.akshartrade.Activity;
 
+import static com.in.akshartrade.Utils.Glob.dialog;
+import static com.in.akshartrade.Utils.Glob.token;
+import static com.in.akshartrade.Utils.Glob.userId;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,23 +11,32 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.in.akshartrade.Adapter.OrderAdapter;
+import com.in.akshartrade.Model.CommonModel;
 import com.in.akshartrade.Model.OrderModel;
 import com.in.akshartrade.R;
+import com.in.akshartrade.Utils.Api;
+import com.in.akshartrade.Utils.Glob;
+import com.in.akshartrade.Utils.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OrderActivity extends AppCompatActivity {
 
     RecyclerView orderRecycler;
     OrderAdapter orderAdapter;
-    List<OrderModel> orderList = new ArrayList<>();
+    List<OrderModel.OrderData> orderList = new ArrayList<>();
 
     ImageView profile;
     BottomNavigationView bottomNavigationView;
@@ -35,11 +48,14 @@ public class OrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order);
         init();
         clickEvent();
-        orderData();
+        getOrder(token, userId);
+
     }
 
 
     public void init() {
+
+        Glob.progressDialog(this);
         orderRecycler = findViewById(R.id.orderRecycler);
         profile = findViewById(R.id.profile);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -108,19 +124,58 @@ public class OrderActivity extends AppCompatActivity {
         });
 
     }
+
+
+    public void getOrder(String token, String userId) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+        dialog.show();
+
+
+        call.getOrder(token, userId).enqueue(new Callback<OrderModel>() {
+            @Override
+            public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+
+                OrderModel orderModel = response.body();
+
+                List<OrderModel.OrderData> dataList = orderModel.getOrderData();
+
+                for (int i = 0; i < dataList.size(); i++) {
+
+                    OrderModel.OrderData model = dataList.get(i);
+
+                    OrderModel.OrderData data = new OrderModel.OrderData(
+                            model.getInstrument_token(),
+                            model.getExchange_token(),
+                            model.getTradingsymbol(),
+                            model.getName(),
+                            model.getLTP(),
+                            model.getPL_sign(),
+                            model.getpAndL(),
+                            model.getQTY(),
+                            model.getExchange()
+                    );
+                    orderList.add(data);
+
+                    Log.d("orderList", "onResponse: " + model.getpAndL());
+
+                }
+                orderData();
+                dialog.dismiss();
+
+            }
+
+            @Override
+            public void onFailure(Call<OrderModel> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
     public void orderData() {
 
-        OrderModel model = new OrderModel("RELIANCE", "₹ 1027.65", "₹ 2027.65", "NSE QTY: 30");
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
-        orderList.add(model);
 
         orderAdapter = new OrderAdapter(orderList, getApplicationContext(), new OrderAdapter.Click() {
             @Override
@@ -134,6 +189,19 @@ public class OrderActivity extends AppCompatActivity {
         orderAdapter.notifyDataSetChanged();
         orderRecycler.setAdapter(orderAdapter);
 
+
     }
 
+    @Override
+    public void onBackPressed() {
+
+        Intent intent;
+        intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(0, 0);
+        super.onBackPressed();
+
+
+    }
 }
