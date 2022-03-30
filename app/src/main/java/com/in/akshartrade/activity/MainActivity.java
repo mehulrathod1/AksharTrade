@@ -1,5 +1,10 @@
 package com.in.akshartrade.Activity;
 
+import static com.in.akshartrade.Utils.Glob.dialog;
+import static com.in.akshartrade.Utils.Glob.progressDialog;
+import static com.in.akshartrade.Utils.Glob.token;
+import static com.in.akshartrade.Utils.Glob.userId;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -14,14 +19,22 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.in.akshartrade.Adapter.TabStockAdapter;
+import com.in.akshartrade.Model.SenSexDataModel;
 import com.in.akshartrade.R;
+import com.in.akshartrade.Utils.Api;
+import com.in.akshartrade.Utils.Glob;
+import com.in.akshartrade.Utils.RetrofitClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
 
     TabLayout tabLayout;
     ViewPager viewPager;
-    TextView txt_Search;
+    TextView txt_Search, senSexPrice,niftyPrice;
     ImageView profile, watchList;
     BottomNavigationView bottomNavigationView;
 
@@ -32,19 +45,24 @@ public class MainActivity extends AppCompatActivity {
 
         init();
         clickEvent();
+        getSenSexData(token, userId);
+        getNiftyData(token, userId);
 
     }
 
 
     public void init() {
 
+//        progressDialog(this);
+
         tabLayout = findViewById(R.id.tab);
         viewPager = findViewById(R.id.pager);
         profile = findViewById(R.id.profile);
         watchList = findViewById(R.id.watchList);
         txt_Search = findViewById(R.id.txt_Search);
+        senSexPrice = findViewById(R.id.senSexPrice);
+        niftyPrice = findViewById(R.id.niftyPrice);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-
 
         tabLayout.addTab(tabLayout.newTab().setText("WatchList 1"));
         tabLayout.addTab(tabLayout.newTab().setText("WatchList 2"));
@@ -147,6 +165,63 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void getSenSexData(String token, String userId) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+//        dialog.show();
+
+
+        call.getSenSexData(token, userId).enqueue(new Callback<SenSexDataModel>() {
+            @Override
+            public void onResponse(Call<SenSexDataModel> call, Response<SenSexDataModel> response) {
+
+                SenSexDataModel senSexDataModel = response.body();
+
+                SenSexDataModel.SenSEexData model = senSexDataModel.getSenSEexData();
+
+
+                senSexPrice.setText(model.getLast_price());
+
+//                dialog.dismiss();
+
+            }
+
+            @Override
+            public void onFailure(Call<SenSexDataModel> call, Throwable t) {
+
+//                dialog.dismiss();
+            }
+        });
+    }
+
+    public void getNiftyData(String token, String userId) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+//        dialog.show();
+
+
+        call.getNiftyData(token, userId).enqueue(new Callback<SenSexDataModel>() {
+            @Override
+            public void onResponse(Call<SenSexDataModel> call, Response<SenSexDataModel> response) {
+
+                SenSexDataModel senSexDataModel = response.body();
+
+                SenSexDataModel.SenSEexData model = senSexDataModel.getSenSEexData();
+
+
+                niftyPrice.setText(model.getLast_price());
+
+//                dialog.dismiss();
+
+            }
+
+            @Override
+            public void onFailure(Call<SenSexDataModel> call, Throwable t) {
+
+//                dialog.dismiss();
+            }
+        });
+    }
 
     @Override
     public void onBackPressed() {

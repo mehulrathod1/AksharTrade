@@ -153,7 +153,8 @@ public class OrderActivity extends AppCompatActivity {
                             model.getPL_sign(),
                             model.getpAndL(),
                             model.getQTY(),
-                            model.getExchange()
+                            model.getExchange(),
+                            model.getOrder_type()
                     );
                     orderList.add(data);
 

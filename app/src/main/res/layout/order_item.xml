@@ -34,9 +34,16 @@
                 style="@style/q_reg_gray_dark_10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_4sdp"
                 android:text="RELIANCE" />
 
+            <TextView
+                android:id="@+id/orderType"
+                style="@style/q_reg_gray_dark_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:text="" />
 
         </LinearLayout>
 

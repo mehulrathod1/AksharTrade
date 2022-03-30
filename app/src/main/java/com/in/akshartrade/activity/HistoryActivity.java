@@ -1,5 +1,10 @@
 package com.in.akshartrade.Activity;
 
+import static com.in.akshartrade.Utils.Glob.dialog;
+import static com.in.akshartrade.Utils.Glob.progressDialog;
+import static com.in.akshartrade.Utils.Glob.token;
+import static com.in.akshartrade.Utils.Glob.userId;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,15 +21,22 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.in.akshartrade.Adapter.OrderAdapter;
 import com.in.akshartrade.Model.OrderModel;
 import com.in.akshartrade.R;
+import com.in.akshartrade.Utils.Api;
+import com.in.akshartrade.Utils.Glob;
+import com.in.akshartrade.Utils.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class HistoryActivity extends AppCompatActivity {
 
-    RecyclerView orderRecycler;
-    OrderAdapter orderAdapter;
-    List<OrderModel.OrderData> orderList = new ArrayList<>();
+    RecyclerView historyRecycler;
+    OrderAdapter historyAdapter;
+    List<OrderModel.OrderData> historyList = new ArrayList<>();
 
     ImageView profile;
     BottomNavigationView bottomNavigationView;
@@ -36,11 +49,15 @@ public class HistoryActivity extends AppCompatActivity {
 
         init();
         clickEvent();
-        orderData();
+        getHistory(token, userId);
+
 
     }
+
     public void init() {
-        orderRecycler = findViewById(R.id.orderRecycler);
+
+        progressDialog(this);
+        historyRecycler = findViewById(R.id.orderRecycler);
         profile = findViewById(R.id.profile);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
@@ -107,10 +124,60 @@ public class HistoryActivity extends AppCompatActivity {
         });
 
     }
+
+    public void getHistory(String token, String userId) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+        dialog.show();
+
+
+        call.getHistory(token, userId).enqueue(new Callback<OrderModel>() {
+            @Override
+            public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+
+                OrderModel orderModel = response.body();
+
+                List<OrderModel.OrderData> dataList = orderModel.getOrderData();
+
+                for (int i = 0; i < dataList.size(); i++) {
+
+                    OrderModel.OrderData model = dataList.get(i);
+
+                    OrderModel.OrderData data = new OrderModel.OrderData(
+                            model.getInstrument_token(),
+                            model.getExchange_token(),
+                            model.getTradingsymbol(),
+                            model.getName(),
+                            model.getLTP(),
+                            model.getPL_sign(),
+                            model.getpAndL(),
+                            model.getQTY(),
+                            model.getExchange(),
+                            model.getOrder_type()
+                    );
+                    historyList.add(data);
+
+                    Log.d("orderList", "onResponse: " + model.getpAndL());
+
+                }
+                orderData();
+                dialog.dismiss();
+
+            }
+
+            @Override
+            public void onFailure(Call<OrderModel> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
     public void orderData() {
 
 
-        orderAdapter = new OrderAdapter(orderList, getApplicationContext(), new OrderAdapter.Click() {
+        historyAdapter = new OrderAdapter(historyList, getApplicationContext(), new OrderAdapter.Click() {
             @Override
             public void onItemClick(int position) {
 
@@ -118,9 +185,10 @@ public class HistoryActivity extends AppCompatActivity {
         });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        orderRecycler.setLayoutManager(layoutManager);
-        orderAdapter.notifyDataSetChanged();
-        orderRecycler.setAdapter(orderAdapter);
+        historyRecycler.setLayoutManager(layoutManager);
+        historyAdapter.notifyDataSetChanged();
+        historyRecycler.setAdapter(historyAdapter);
+
 
     }
 

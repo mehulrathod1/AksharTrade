@@ -88,7 +88,19 @@ public class OrderModel {
         @Expose
         OrderChartData chartData;
 
-        public OrderData(String instrument_token, String exchange_token, String tradingsymbol, String name, String LTP, String PL_sign, String pAndL, String QTY, String exchange) {
+        @SerializedName("order_type")
+        @Expose
+        String order_type;
+
+        public String getOrder_type() {
+            return order_type;
+        }
+
+        public void setOrder_type(String order_type) {
+            this.order_type = order_type;
+        }
+
+        public OrderData(String instrument_token, String exchange_token, String tradingsymbol, String name, String LTP, String PL_sign, String pAndL, String QTY, String exchange,  String order_type) {
             this.instrument_token = instrument_token;
             this.exchange_token = exchange_token;
             this.tradingsymbol = tradingsymbol;
@@ -98,6 +110,7 @@ public class OrderModel {
             this.pAndL = pAndL;
             this.QTY = QTY;
             this.exchange = exchange;
+            this.order_type = order_type;
         }
 
         public String getInstrument_token() {
@@ -213,6 +226,8 @@ public class OrderModel {
             @SerializedName("close")
             @Expose
             String close;
+
+
 
             public String getDate() {
                 return date;

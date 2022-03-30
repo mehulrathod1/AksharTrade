@@ -6,6 +6,7 @@ import com.in.akshartrade.Model.CompanyDetailModel;
 import com.in.akshartrade.Model.LoginModel;
 import com.in.akshartrade.Model.OrderModel;
 import com.in.akshartrade.Model.SearchModel;
+import com.in.akshartrade.Model.SenSexDataModel;
 import com.in.akshartrade.Model.StockDetailModel;
 import com.in.akshartrade.Model.UserProfileModel;
 import com.in.akshartrade.Model.WatchListModel;
@@ -74,7 +75,8 @@ public interface Api {
     Call<WatchListModel> getWatchList(
 
             @Field("token") String token,
-            @Field("user_id") String user_id
+            @Field("user_id") String user_id,
+            @Field("currentpage") String currentPage
     );
 
 
@@ -102,4 +104,58 @@ public interface Api {
             @Field("token") String token,
             @Field("user_id") String user_id
     );
+
+    @FormUrlEncoded
+    @POST("get_trade_list")
+    Call<OrderModel> getTrade(
+
+            @Field("token") String token,
+            @Field("user_id") String user_id
+
+    );
+
+    @FormUrlEncoded
+    @POST("get_history_list")
+    Call<OrderModel> getHistory(
+
+            @Field("token") String token,
+            @Field("user_id") String user_id
+
+    );
+
+    @FormUrlEncoded
+    @POST("get_sensex_data")
+    Call<SenSexDataModel> getSenSexData(
+
+            @Field("token") String token,
+            @Field("user_id") String user_id
+
+    );
+
+    @FormUrlEncoded
+    @POST("get_nifty_data")
+    Call<SenSexDataModel> getNiftyData(
+
+            @Field("token") String token,
+            @Field("user_id") String user_id
+
+    );
+
+    @FormUrlEncoded
+    @POST("sell_share_order")
+    Call<CommonModel> sellShare(
+
+            @Field("token") String token,
+            @Field("user_id") String user_id,
+            @Field("instrument_token") String instrument_token,
+            @Field("stake") String stake,
+            @Field("quantity") String quantity,
+            @Field("price") String price,
+            @Field("orders") String order_type,
+            @Field("name") String name,
+            @Field("exchange") String exchange,
+            @Field("lot_size") String lot_size
+
+    );
+
 }

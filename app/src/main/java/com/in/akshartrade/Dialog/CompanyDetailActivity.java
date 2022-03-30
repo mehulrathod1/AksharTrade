@@ -9,6 +9,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -41,6 +42,10 @@ public class CompanyDetailActivity extends AppCompatActivity {
     ImageView dialogClose, bookMark;
     TextView sellStock, buyStock, tradingSymbol, companyName, stockPrice, exchange;
 
+    Handler handler = new Handler();
+    Runnable runnable;
+    long delay = 5000;
+    String instrumentToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +55,13 @@ public class CompanyDetailActivity extends AppCompatActivity {
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         Intent intent = getIntent();
-        String instrumentToken = intent.getStringExtra("instrumentToken");
+        instrumentToken = intent.getStringExtra("instrumentToken");
         Glob.instrumentalToken = instrumentToken;
 
         init();
         clickEvent();
         getCompanyDetail(token, userId, instrumentToken);
-
+        scheduleSendLocation();
 
     }
 
@@ -158,7 +163,7 @@ public class CompanyDetailActivity extends AppCompatActivity {
                 tradingSymbol.setText(companyData.getTradingsymbol());
                 companyName.setText(companyData.getName());
                 exchange.setText(companyData.getExchange());
-                stockPrice.setText(new DecimalFormat("##.##").format(lastPriceValue));
+                stockPrice.setText(historicalData.getLast_price());
 
 
 //                volume.setText(new DecimalFormat("##.##").format(volumeValue));
@@ -179,6 +184,57 @@ public class CompanyDetailActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void getCompanyDetaill(String token, String user_id, String instrument_token) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+
+
+        call.getCompanyDetail(token, user_id, instrument_token).enqueue(new Callback<CompanyDetailModel>() {
+            @Override
+            public void onResponse(Call<CompanyDetailModel> call, Response<CompanyDetailModel> response) {
+
+                CompanyDetailModel companyDetailModel = response.body();
+                CompanyDetailModel.CompanyData companyData = companyDetailModel.getCompanyData();
+                CompanyDetailModel.CompanyData.HistoricalData historicalData = companyData.getHistoricalData();
+
+
+                double volumeValue = Double.parseDouble(historicalData.getVolume());
+                double openValue = Double.parseDouble(historicalData.getOpen());
+                double highValue = Double.parseDouble(historicalData.getHigh());
+                double lowValue = Double.parseDouble(historicalData.getLow());
+                double closeValue = Double.parseDouble(historicalData.getClose());
+                double lowerCircuitValue = Double.parseDouble(historicalData.getLower_circuit_limit());
+                double upperCircuitValue = Double.parseDouble(historicalData.getUpper_circuit_limit());
+
+                double lastPriceValue = Double.parseDouble(historicalData.getLast_price());
+
+
+                tradingSymbol.setText(companyData.getTradingsymbol());
+                companyName.setText(companyData.getName());
+                exchange.setText(companyData.getExchange());
+                stockPrice.setText(historicalData.getLast_price());
+
+
+//                volume.setText(new DecimalFormat("##.##").format(volumeValue));
+//                open.setText(new DecimalFormat("##.##").format(openValue));
+//                high.setText(new DecimalFormat("##.##").format(highValue));
+//                low.setText(new DecimalFormat("##.##").format(lowValue));
+//                close.setText(new DecimalFormat("##.##").format(closeValue));
+//                lowerCircuit.setText(new DecimalFormat("##.##").format(lowerCircuitValue));
+//                upperCircuit.setText(new DecimalFormat("##.##").format(upperCircuitValue));
+
+
+            }
+
+            @Override
+            public void onFailure(Call<CompanyDetailModel> call, Throwable t) {
+
+
+            }
+        });
+    }
+
 
     public void removeFromWatchlist(String token, String userId, String instrumentToken) {
 
@@ -203,6 +259,25 @@ public class CompanyDetailActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void scheduleSendLocation() {
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+
+
+                getCompanyDetaill(token, userId, instrumentToken);
+
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
+    }
+
+    @Override
+    public void onPause() {
+        handler.removeCallbacks(runnable); //stop handler when activity not visible super.onPause();
+        super.onPause();
     }
 
 

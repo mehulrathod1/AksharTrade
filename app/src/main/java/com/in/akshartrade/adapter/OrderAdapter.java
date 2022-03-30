@@ -1,6 +1,8 @@
 package com.in.akshartrade.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,22 +43,30 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         OrderModel.OrderData model = list.get(position);
 
-        double LTP = Double.parseDouble(model.getLTP());
-        double PL = Double.parseDouble(model.getpAndL());
+        String orderType = model.getOrder_type();
+
+        if (orderType.equals("Buy")){
+            holder.orderType.setText(model.getOrder_type());
+            holder.orderType.setTextColor(Color.parseColor("#58B182"));
+        }
+        if (orderType.equals("Sell")){
+
+            holder.orderType.setText(model.getOrder_type());
+            holder.orderType.setTextColor(Color.parseColor("#DC4F50"));
+        }
 
         holder.companyName.setText(model.getName());
         holder.stockCategory.setText(model.getExchange() + "  QTY "+model.getQTY());
-        holder.ltpPrice.setText(new DecimalFormat("##.##").format(LTP));
-//        holder.plPrice.setText(new DecimalFormat("##.##").format(PL));
-
+        holder.ltpPrice.setText(model.getLTP());
         holder.plPrice.setText(model.getpAndL());
 
-        Log.e("PL", "onBindViewHolder: "+PL );
+
     }
 
     @Override
@@ -66,7 +76,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView companyName, ltpPrice, plPrice, stockCategory;
+        TextView companyName, ltpPrice, plPrice, stockCategory,orderType;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,7 +85,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             ltpPrice = itemView.findViewById(R.id.ltpPrice);
             plPrice = itemView.findViewById(R.id.plPrice);
             stockCategory = itemView.findViewById(R.id.stockCategory);
-
+            orderType = itemView.findViewById(R.id.orderType);
         }
     }
 }

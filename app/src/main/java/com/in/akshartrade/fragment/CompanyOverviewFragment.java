@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -42,6 +43,11 @@ public class CompanyOverviewFragment extends Fragment {
             quantity, totalPrice,buyStock,sellStock;
 
     String instrumentToken,companyName,exchange;
+
+
+    Handler handler = new Handler();
+    Runnable runnable;
+    long delay = 5000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -130,6 +136,23 @@ public class CompanyOverviewFragment extends Fragment {
             }
         });
 
+        sellStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                sellStockOrder(token,userId,
+                        instrumentToken,
+                        "Q",
+                        quantity.getText().toString(),
+                        totalPrice.getText().toString(),
+                        "market",
+                        companyName,
+                        exchange,
+                        "0"
+                );
+            }
+        });
+
     }
 
     public void getCompanyDetail(String token, String user_id, String instrument_token) {
@@ -146,23 +169,14 @@ public class CompanyOverviewFragment extends Fragment {
                 CompanyDetailModel.CompanyData.HistoricalData historicalData = companyData.getHistoricalData();
 
 
-                double volumeValue = Double.parseDouble(historicalData.getVolume());
-                double openValue = Double.parseDouble(historicalData.getOpen());
-                double highValue = Double.parseDouble(historicalData.getHigh());
-                double lowValue = Double.parseDouble(historicalData.getLow());
-                double closeValue = Double.parseDouble(historicalData.getClose());
-                double lowerCircuitValue = Double.parseDouble(historicalData.getLower_circuit_limit());
-                double upperCircuitValue = Double.parseDouble(historicalData.getUpper_circuit_limit());
-                double stockPriceValue = Double.parseDouble(historicalData.getLast_price());
-
-                volume.setText(new DecimalFormat("##.##").format(volumeValue));
-                open.setText(new DecimalFormat("##.##").format(openValue));
-                high.setText(new DecimalFormat("##.##").format(highValue));
-                low.setText(new DecimalFormat("##.##").format(lowValue));
-                close.setText(new DecimalFormat("##.##").format(closeValue));
-                lowerCircuit.setText(new DecimalFormat("##.##").format(lowerCircuitValue));
-                upperCircuit.setText(new DecimalFormat("##.##").format(upperCircuitValue));
-                totalPrice.setText(new DecimalFormat("##.##").format(stockPriceValue));
+                volume.setText(historicalData.getVolume());
+                open.setText(historicalData.getOpen());
+                high.setText(historicalData.getHigh());
+                low.setText(historicalData.getLow());
+                close.setText(historicalData.getClose());
+                lowerCircuit.setText(historicalData.getLower_circuit_limit());
+                upperCircuit.setText(historicalData.getUpper_circuit_limit());
+                totalPrice.setText(historicalData.getLast_price());
 
                 instrumentToken = companyData.getInstrument_token();
                 companyName = companyData.getName();
@@ -205,5 +219,56 @@ public class CompanyOverviewFragment extends Fragment {
                 dialog.dismiss();
             }
         });
+    }
+
+    public void sellStockOrder(String token, String user_id, String instrument_token,
+                              String stake, String quantity, String price, String order_type,
+                              String name, String exchange,
+                              String lot_size) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+        dialog.show();
+
+        call.sellShare(token, user_id, instrument_token, stake, quantity, price, order_type,
+                name, exchange, lot_size).enqueue(new Callback<CommonModel>() {
+            @Override
+            public void onResponse(Call<CommonModel> call, Response<CommonModel> response) {
+
+                CommonModel commonModel = response.body();
+
+                Toast.makeText(getContext(), "" + commonModel.getMessage(), Toast.LENGTH_SHORT).show();
+
+                dialog.dismiss();
+
+            }
+
+            @Override
+            public void onFailure(Call<CommonModel> call, Throwable t) {
+                dialog.dismiss();
+
+            }
+        });
+
+    }
+        public void scheduleSendLocation() {
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+
+                if (getContext().equals(null)){
+
+                }
+                else {
+
+                }
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
+    }
+
+    @Override
+    public void onPause() {
+        handler.removeCallbacks(runnable); //stop handler when activity not visible super.onPause();
+        super.onPause();
     }
 }

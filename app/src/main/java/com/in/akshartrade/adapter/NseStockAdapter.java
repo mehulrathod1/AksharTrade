@@ -1,5 +1,6 @@
 package com.in.akshartrade.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -53,15 +54,14 @@ public class NseStockAdapter extends RecyclerView.Adapter<NseStockAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         WatchListModel.WatchListData model = list.get(position);
 
-        double lastPriceValue = Double.parseDouble(model.getChart_data().getLast_price());
 
         holder.companyName.setText(model.getName());
         holder.stockCategory.setText(model.getExchange());
-        holder.stockPrice.setText(new DecimalFormat("##.##").format(lastPriceValue));
+        holder.stockPrice.setText(model.getChart_data().getLast_price());
 
 
 //        List<PointValue> values = new ArrayList<PointValue>();
