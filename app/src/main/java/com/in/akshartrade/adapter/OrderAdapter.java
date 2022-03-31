@@ -63,8 +63,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
         holder.companyName.setText(model.getName());
         holder.stockCategory.setText(model.getExchange() + "  QTY "+model.getQTY());
-        holder.ltpPrice.setText(model.getLTP());
-        holder.plPrice.setText(model.getpAndL());
+        holder.ltpPrice.setText("₹ "+model.getLTP());
+        holder.plPrice.setText("₹ "+model.getpAndL());
 
 
     }

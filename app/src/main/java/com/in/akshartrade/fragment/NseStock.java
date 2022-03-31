@@ -60,7 +60,6 @@ public class NseStock extends Fragment {
 
         init();
         getWatchList(token, userId,"1");
-//        nseListData();
         scheduleSendLocation();
 
 
@@ -89,35 +88,39 @@ public class NseStock extends Fragment {
                 nseStockModelList.clear();
                 WatchListModel watchListModel = response.body();
 
-                List<WatchListModel.WatchListData> dataList = watchListModel.getWatchListDataList();
+                if (response.isSuccessful()) {
+                    List<WatchListModel.WatchListData> dataList = watchListModel.getWatchListDataList();
 
-                for (int i = 0; i < dataList.size(); i++) {
+                    for (int i = 0; i < dataList.size(); i++) {
 
-                    WatchListModel.WatchListData model = dataList.get(i);
+                        WatchListModel.WatchListData model = dataList.get(i);
 
-                    WatchListModel.WatchListData data = new WatchListModel.WatchListData(
-                            model.getInstrument_token(),
-                            model.getExchange_token(),
-                            model.getTradingsymbol(),
-                            model.getName(),
-                            model.getExchange(), model.getChart_data()
-                    );
-                    nseStockModelList.add(data);
+                        WatchListModel.WatchListData data = new WatchListModel.WatchListData(
+                                model.getInstrument_token(),
+                                model.getExchange_token(),
+                                model.getTradingsymbol(),
+                                model.getName(),
+                                model.getExchange(), model.getChart_data()
+                        );
+                        nseStockModelList.add(data);
 
+                    }
+                    nseListData();
+                    dialog.dismiss();
                 }
-                nseListData();
                 dialog.dismiss();
-
             }
 
             @Override
             public void onFailure(Call<WatchListModel> call, Throwable t) {
 
+                dialog.dismiss();
+
             }
         });
     }
 
-    public void getWatchListt(String token, String userId,String currentPage) {
+    public void getLiveWatchList(String token, String userId,String currentPage) {
 
         Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
 
@@ -155,6 +158,7 @@ public class NseStock extends Fragment {
             }
         });
     }
+
 
 
     public void nseListData() {
@@ -196,5 +200,4 @@ public class NseStock extends Fragment {
         handler.removeCallbacks(runnable); //stop handler when activity not visible super.onPause();
         super.onPause();
     }
-
 }

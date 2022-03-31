@@ -61,23 +61,34 @@ public class NseStockAdapter extends RecyclerView.Adapter<NseStockAdapter.ViewHo
 
         holder.companyName.setText(model.getName());
         holder.stockCategory.setText(model.getExchange());
-        holder.stockPrice.setText(model.getChart_data().getLast_price());
+        holder.stockPrice.setText("₹ "+model.getChart_data().getLast_price());
+        holder.profitAndLoss.setText(model.getChart_data().getProfit_and_lost());
+        holder.percentage.setText("("+model.getChart_data().getPercentage_val()+")");
 
 
-//        List<PointValue> values = new ArrayList<PointValue>();
-//        values.add(new PointValue(0, 2));
-//        values.add(new PointValue(1, 4));
-//        values.add(new PointValue(2, 3));
-//        values.add(new PointValue(3, 4));
-//
-//        Line line = new Line(values).setColor(Color.BLUE).setCubic(true);
-//        List<Line> lines = new ArrayList<Line>();
-//        lines.add(line);
-//
-//        LineChartData data = new LineChartData();
-//        data.setLines(lines);
+        holder.lineChart.setInteractive(true);
+//        holder.lineChart.setZoomType(ZoomType.HORIZONTAL);
 
 
+        List<PointValue> values = new ArrayList<PointValue>();
+        values.add(new PointValue(0, 497));
+        values.add(new PointValue(1, 494));
+        values.add(new PointValue(2, 490));
+        values.add(new PointValue(3, 488));
+        values.add(new PointValue(4, 300));
+        values.add(new PointValue(5, 392));
+        values.add(new PointValue(6, 491));
+        values.add(new PointValue(7, 490));
+
+
+        Line line = new Line(values);
+        line.setFilled(true);
+        List<Line> lines = new ArrayList<Line>();
+        lines.add(line);
+        LineChartData data = new LineChartData();
+        data.setLines(lines);
+
+        holder.lineChart.setLineChartData(data);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,9 +106,9 @@ public class NseStockAdapter extends RecyclerView.Adapter<NseStockAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView companyName, stockCategory, stockPrice, livePrice, livePercentage;
+        TextView companyName, stockCategory, stockPrice, profitAndLoss, percentage;
 
-        LineChartView lineChart = new LineChartView(context);
+        LineChartView lineChart;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -105,8 +116,8 @@ public class NseStockAdapter extends RecyclerView.Adapter<NseStockAdapter.ViewHo
             companyName = itemView.findViewById(R.id.companyName);
             stockCategory = itemView.findViewById(R.id.stockCategory);
             stockPrice = itemView.findViewById(R.id.stockPrice);
-            livePrice = itemView.findViewById(R.id.livePrice);
-            livePercentage = itemView.findViewById(R.id.livePercentage);
+            profitAndLoss = itemView.findViewById(R.id.profitAndLoss);
+            percentage = itemView.findViewById(R.id.percentage);
             lineChart = itemView.findViewById(R.id.lineChart);
         }
     }

@@ -145,35 +145,28 @@ public class CompanyDetailActivity extends AppCompatActivity {
             public void onResponse(Call<CompanyDetailModel> call, Response<CompanyDetailModel> response) {
 
                 CompanyDetailModel companyDetailModel = response.body();
-                CompanyDetailModel.CompanyData companyData = companyDetailModel.getCompanyData();
-                CompanyDetailModel.CompanyData.HistoricalData historicalData = companyData.getHistoricalData();
+                if (response.isSuccessful()) {
+                    CompanyDetailModel.CompanyData companyData = companyDetailModel.getCompanyData();
+                    CompanyDetailModel.CompanyData.HistoricalData historicalData = companyData.getHistoricalData();
 
 
-                double volumeValue = Double.parseDouble(historicalData.getVolume());
-                double openValue = Double.parseDouble(historicalData.getOpen());
-                double highValue = Double.parseDouble(historicalData.getHigh());
-                double lowValue = Double.parseDouble(historicalData.getLow());
-                double closeValue = Double.parseDouble(historicalData.getClose());
-                double lowerCircuitValue = Double.parseDouble(historicalData.getLower_circuit_limit());
-                double upperCircuitValue = Double.parseDouble(historicalData.getUpper_circuit_limit());
+                    double volumeValue = Double.parseDouble(historicalData.getVolume());
+                    double openValue = Double.parseDouble(historicalData.getOpen());
+                    double highValue = Double.parseDouble(historicalData.getHigh());
+                    double lowValue = Double.parseDouble(historicalData.getLow());
+                    double closeValue = Double.parseDouble(historicalData.getClose());
+                    double lowerCircuitValue = Double.parseDouble(historicalData.getLower_circuit_limit());
+                    double upperCircuitValue = Double.parseDouble(historicalData.getUpper_circuit_limit());
 
-                double lastPriceValue = Double.parseDouble(historicalData.getLast_price());
-
-
-                tradingSymbol.setText(companyData.getTradingsymbol());
-                companyName.setText(companyData.getName());
-                exchange.setText(companyData.getExchange());
-                stockPrice.setText(historicalData.getLast_price());
+                    double lastPriceValue = Double.parseDouble(historicalData.getLast_price());
 
 
-//                volume.setText(new DecimalFormat("##.##").format(volumeValue));
-//                open.setText(new DecimalFormat("##.##").format(openValue));
-//                high.setText(new DecimalFormat("##.##").format(highValue));
-//                low.setText(new DecimalFormat("##.##").format(lowValue));
-//                close.setText(new DecimalFormat("##.##").format(closeValue));
-//                lowerCircuit.setText(new DecimalFormat("##.##").format(lowerCircuitValue));
-//                upperCircuit.setText(new DecimalFormat("##.##").format(upperCircuitValue));
+                    tradingSymbol.setText(companyData.getTradingsymbol());
+                    companyName.setText(companyData.getName());
+                    exchange.setText(companyData.getExchange());
+                    stockPrice.setText(historicalData.getLast_price());
 
+                }
 
             }
 
@@ -185,7 +178,7 @@ public class CompanyDetailActivity extends AppCompatActivity {
         });
     }
 
-    public void getCompanyDetaill(String token, String user_id, String instrument_token) {
+    public void getLiveCompanyDetail(String token, String user_id, String instrument_token) {
 
         Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
 
@@ -267,7 +260,7 @@ public class CompanyDetailActivity extends AppCompatActivity {
             public void run() {
 
 
-                getCompanyDetaill(token, userId, instrumentToken);
+//                getLiveCompanyDetail(token, userId, instrumentToken);
 
                 handler.postDelayed(this, delay);
             }

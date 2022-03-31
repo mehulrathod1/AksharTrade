@@ -8,6 +8,7 @@ import com.in.akshartrade.Model.OrderModel;
 import com.in.akshartrade.Model.SearchModel;
 import com.in.akshartrade.Model.SenSexDataModel;
 import com.in.akshartrade.Model.StockDetailModel;
+import com.in.akshartrade.Model.TotalBalanceModel;
 import com.in.akshartrade.Model.UserProfileModel;
 import com.in.akshartrade.Model.WatchListModel;
 
@@ -155,6 +156,16 @@ public interface Api {
             @Field("name") String name,
             @Field("exchange") String exchange,
             @Field("lot_size") String lot_size
+
+    );
+
+
+    @FormUrlEncoded
+    @POST("get_total_balance")
+    Call<TotalBalanceModel> getTotalBalance(
+
+            @Field("token") String token,
+            @Field("user_id") String user_id
 
     );
 

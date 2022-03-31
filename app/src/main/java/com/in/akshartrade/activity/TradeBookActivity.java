@@ -137,32 +137,34 @@ public class TradeBookActivity extends AppCompatActivity {
 
                 OrderModel orderModel = response.body();
 
-                List<OrderModel.OrderData> dataList = orderModel.getOrderData();
+                if (response.isSuccessful()) {
+                    List<OrderModel.OrderData> dataList = orderModel.getOrderData();
 
-                for (int i = 0; i < dataList.size(); i++) {
+                    for (int i = 0; i < dataList.size(); i++) {
 
-                    OrderModel.OrderData model = dataList.get(i);
+                        OrderModel.OrderData model = dataList.get(i);
 
-                    OrderModel.OrderData data = new OrderModel.OrderData(
-                            model.getInstrument_token(),
-                            model.getExchange_token(),
-                            model.getTradingsymbol(),
-                            model.getName(),
-                            model.getLTP(),
-                            model.getPL_sign(),
-                            model.getpAndL(),
-                            model.getQTY(),
-                            model.getExchange(),
-                            model.getOrder_type()
-                    );
-                    tradeBookList.add(data);
+                        OrderModel.OrderData data = new OrderModel.OrderData(
+                                model.getInstrument_token(),
+                                model.getExchange_token(),
+                                model.getTradingsymbol(),
+                                model.getName(),
+                                model.getLTP(),
+                                model.getPL_sign(),
+                                model.getpAndL(),
+                                model.getQTY(),
+                                model.getExchange(),
+                                model.getOrder_type()
+                        );
+                        tradeBookList.add(data);
 
-                    Log.d("orderList", "onResponse: " + model.getpAndL());
+                        Log.d("orderList", "onResponse: " + model.getpAndL());
 
+                    }
+                    orderData();
+                    dialog.dismiss();
                 }
-                orderData();
                 dialog.dismiss();
-
             }
 
             @Override

@@ -18,8 +18,10 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.in.akshartrade.Adapter.OrderAdapter;
 import com.in.akshartrade.Model.OrderModel;
+import com.in.akshartrade.Model.TotalBalanceModel;
 import com.in.akshartrade.R;
 import com.in.akshartrade.Utils.Api;
 import com.in.akshartrade.Utils.Glob;
@@ -40,6 +42,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     ImageView profile;
     BottomNavigationView bottomNavigationView;
+    BottomSheetDialog bottomSheetDialog;
 
 
     @Override
@@ -61,6 +64,10 @@ public class HistoryActivity extends AppCompatActivity {
         profile = findViewById(R.id.profile);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
+
+        bottomSheetDialog = new BottomSheetDialog(HistoryActivity.this);
+        bottomSheetDialog.setContentView(R.layout.history_dialog_layout);
+        dialog.show();
 
         bottomNavigationView.setSelectedItemId(R.id.history);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -137,32 +144,34 @@ public class HistoryActivity extends AppCompatActivity {
 
                 OrderModel orderModel = response.body();
 
-                List<OrderModel.OrderData> dataList = orderModel.getOrderData();
+                if (response.isSuccessful()) {
+                    List<OrderModel.OrderData> dataList = orderModel.getOrderData();
 
-                for (int i = 0; i < dataList.size(); i++) {
+                    for (int i = 0; i < dataList.size(); i++) {
 
-                    OrderModel.OrderData model = dataList.get(i);
+                        OrderModel.OrderData model = dataList.get(i);
 
-                    OrderModel.OrderData data = new OrderModel.OrderData(
-                            model.getInstrument_token(),
-                            model.getExchange_token(),
-                            model.getTradingsymbol(),
-                            model.getName(),
-                            model.getLTP(),
-                            model.getPL_sign(),
-                            model.getpAndL(),
-                            model.getQTY(),
-                            model.getExchange(),
-                            model.getOrder_type()
-                    );
-                    historyList.add(data);
+                        OrderModel.OrderData data = new OrderModel.OrderData(
+                                model.getInstrument_token(),
+                                model.getExchange_token(),
+                                model.getTradingsymbol(),
+                                model.getName(),
+                                model.getLTP(),
+                                model.getPL_sign(),
+                                model.getpAndL(),
+                                model.getQTY(),
+                                model.getExchange(),
+                                model.getOrder_type()
+                        );
+                        historyList.add(data);
 
-                    Log.d("orderList", "onResponse: " + model.getpAndL());
+                        Log.d("orderList", "onResponse: " + model.getpAndL());
 
+                    }
+                    orderData();
+                    dialog.dismiss();
                 }
-                orderData();
                 dialog.dismiss();
-
             }
 
             @Override
@@ -190,6 +199,33 @@ public class HistoryActivity extends AppCompatActivity {
         historyRecycler.setAdapter(historyAdapter);
 
 
+    }
+
+    public void getTotalBalance(String token, String userId) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+        dialog.show();
+
+
+        call.getTotalBalance(token, userId).enqueue(new Callback<TotalBalanceModel>() {
+            @Override
+            public void onResponse(Call<TotalBalanceModel> call, Response<TotalBalanceModel> response) {
+
+                TotalBalanceModel totalBalanceModel = response.body();
+
+                if (response.isSuccessful()) {
+
+                    TotalBalanceModel.TotalBalance model = totalBalanceModel.getTotalBalance();
+                    dialog.dismiss();
+                }
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<TotalBalanceModel> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
