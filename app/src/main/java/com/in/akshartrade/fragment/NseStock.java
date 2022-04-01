@@ -45,7 +45,7 @@ public class NseStock extends Fragment {
 
     Handler handler = new Handler();
     Runnable runnable;
-    long delay = 5000;
+    long delay = 2000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class NseStock extends Fragment {
         view = inflater.inflate(R.layout.fragment_nse_stock, container, false);
 
         init();
-        getWatchList(token, userId,"1");
+        getWatchList(token, userId, "1");
         scheduleSendLocation();
 
 
@@ -75,13 +75,62 @@ public class NseStock extends Fragment {
     }
 
 
-    public void getWatchList(String token, String userId,String currentPage) {
+    public void getWatchList(String token, String userId, String currentPage) {
 
         Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
         dialog.show();
 
 
-        call.getWatchList(token, userId,currentPage).enqueue(new Callback<WatchListModel>() {
+        call.getWatchList(token, userId, currentPage).enqueue(new Callback<WatchListModel>() {
+            @Override
+            public void onResponse(Call<WatchListModel> call, Response<WatchListModel> response) {
+
+                nseStockModelList.clear();
+                WatchListModel watchListModel = response.body();
+
+                if (response.isSuccessful()) {
+                    List<WatchListModel.WatchListData> dataList = watchListModel.getWatchListDataList();
+
+                    for (int i = 0; i < dataList.size(); i++) {
+
+                        WatchListModel.WatchListData model = dataList.get(i);
+
+                        WatchListModel.WatchListData data = new WatchListModel.WatchListData(
+                                model.getInstrument_token(),
+                                model.getExchange_token(),
+                                model.getTradingsymbol(),
+                                model.getName(),
+                                model.getExchange(), model.getChart_data()
+                        );
+                        nseStockModelList.add(data);
+
+                        Log.e("run", "run: " + model.getName());
+
+
+                    }
+                    nseListData();
+                    dialog.dismiss();
+
+                }
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<WatchListModel> call, Throwable t) {
+
+                dialog.dismiss();
+                Log.e("run", "run: " + t.getMessage());
+
+            }
+        });
+    }
+
+    public void getLiveWatchList(String token, String userId, String currentPage) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+
+
+        call.getWatchList(token, userId, currentPage).enqueue(new Callback<WatchListModel>() {
             @Override
             public void onResponse(Call<WatchListModel> call, Response<WatchListModel> response) {
 
@@ -105,51 +154,14 @@ public class NseStock extends Fragment {
                         nseStockModelList.add(data);
 
                     }
-                    nseListData();
-                    dialog.dismiss();
+                    if (nseStockAdapter != null) {
+                        nseStockAdapter.notifyDataSetChanged();
+                    }
+                    else {
+                        nseListData();
+                    }
+//                    nseListData();
                 }
-                dialog.dismiss();
-            }
-
-            @Override
-            public void onFailure(Call<WatchListModel> call, Throwable t) {
-
-                dialog.dismiss();
-
-            }
-        });
-    }
-
-    public void getLiveWatchList(String token, String userId,String currentPage) {
-
-        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
-
-
-        call.getWatchList(token, userId,currentPage).enqueue(new Callback<WatchListModel>() {
-            @Override
-            public void onResponse(Call<WatchListModel> call, Response<WatchListModel> response) {
-
-                nseStockModelList.clear();
-                WatchListModel watchListModel = response.body();
-
-                List<WatchListModel.WatchListData> dataList = watchListModel.getWatchListDataList();
-
-                for (int i = 0; i < dataList.size(); i++) {
-
-                    WatchListModel.WatchListData model = dataList.get(i);
-
-                    WatchListModel.WatchListData data = new WatchListModel.WatchListData(
-                            model.getInstrument_token(),
-                            model.getExchange_token(),
-                            model.getTradingsymbol(),
-                            model.getName(),
-                            model.getExchange(), model.getChart_data()
-                    );
-                    nseStockModelList.add(data);
-
-                }
-                nseListData();
-
             }
 
             @Override
@@ -158,26 +170,39 @@ public class NseStock extends Fragment {
             }
         });
     }
-
 
 
     public void nseListData() {
+
+
 
 
         nseStockAdapter = new NseStockAdapter(nseStockModelList, getContext(), new NseStockAdapter.Click() {
             @Override
             public void onItemClick(int position) {
 
+            }
+
+            @Override
+            public void onBuyClick(int position) {
                 String instrumentToken = nseStockModelList.get(position).getInstrument_token();
                 Intent intent = new Intent(getContext(), CompanyDetailActivity.class);
                 intent.putExtra("instrumentToken", instrumentToken);
                 startActivity(intent);
+            }
 
+            @Override
+            public void onSellClick(int position) {
+                String instrumentToken = nseStockModelList.get(position).getInstrument_token();
+                Intent intent = new Intent(getContext(), CompanyDetailActivity.class);
+                intent.putExtra("instrumentToken", instrumentToken);
+                startActivity(intent);
             }
         });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         stockRecycler.setLayoutManager(layoutManager);
+        nseStockAdapter.notifyDataSetChanged();
         stockRecycler.setAdapter(nseStockAdapter);
     }
 
@@ -186,11 +211,14 @@ public class NseStock extends Fragment {
         handler.postDelayed(new Runnable() {
             public void run() {
 
-                if (getActivity() != null){
+                if (getActivity() != null) {
 
-//                    getWatchListt(token, userId);
+                    getLiveWatchList(token, userId, "1");
+
                 }
                 handler.postDelayed(this, delay);
+
+
             }
         }, delay);
     }

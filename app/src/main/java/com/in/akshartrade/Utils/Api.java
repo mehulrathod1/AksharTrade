@@ -169,4 +169,15 @@ public interface Api {
 
     );
 
+    @FormUrlEncoded
+    @POST("update_user_profile")
+    Call<CommonModel> updateUserProfile(
+
+            @Field("token") String token,
+            @Field("name") String name,
+            @Field("phone") String phone,
+            @Field("user_id") String user_id
+
+    );
+
 }

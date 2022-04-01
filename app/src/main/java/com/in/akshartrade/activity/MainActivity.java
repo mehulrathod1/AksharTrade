@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void getSenSexData(String token, String userId) {
 
+
         Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
 //        dialog.show();
 
@@ -202,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     SenSexDataModel.SenSEexData model = senSexDataModel.getSenSEexData();
-                    senSexPrice.setText(model.getLast_price());
+                    senSexPrice.setText("₹ "+ model.getLast_price());
 
 //                dialog.dismiss();
 
@@ -231,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     SenSexDataModel.SenSEexData model = senSexDataModel.getSenSEexData();
-                    niftyPrice.setText(model.getLast_price());
+                    niftyPrice.setText("₹ "+ model.getLast_price());
 
 //                dialog.dismiss();
 

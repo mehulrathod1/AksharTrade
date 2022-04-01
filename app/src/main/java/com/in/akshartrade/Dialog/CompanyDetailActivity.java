@@ -40,11 +40,11 @@ public class CompanyDetailActivity extends AppCompatActivity {
     ViewPager viewPager;
 
     ImageView dialogClose, bookMark;
-    TextView sellStock, buyStock, tradingSymbol, companyName, stockPrice, exchange;
+    TextView sellStock, buyStock, tradingSymbol, companyName, stockPrice, exchange, percentageVal, profitAndLost;
 
     Handler handler = new Handler();
     Runnable runnable;
-    long delay = 5000;
+    long delay = 2000;
     String instrumentToken;
 
     @Override
@@ -81,7 +81,8 @@ public class CompanyDetailActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Overview"));
         tabLayout.addTab(tabLayout.newTab().setText("Option Chain"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
+        percentageVal = findViewById(R.id.percentageVal);
+        profitAndLost = findViewById(R.id.profitAndLost);
 
         TabCompanyDetailAdapter tabStockAdapter = new TabCompanyDetailAdapter(getSupportFragmentManager(), getApplicationContext(), tabLayout.getTabCount());
 
@@ -157,14 +158,15 @@ public class CompanyDetailActivity extends AppCompatActivity {
                     double closeValue = Double.parseDouble(historicalData.getClose());
                     double lowerCircuitValue = Double.parseDouble(historicalData.getLower_circuit_limit());
                     double upperCircuitValue = Double.parseDouble(historicalData.getUpper_circuit_limit());
-
                     double lastPriceValue = Double.parseDouble(historicalData.getLast_price());
 
 
+                    percentageVal.setText("("+historicalData.getPercentage_val()+")");
+                    profitAndLost.setText("₹ " + historicalData.getProfit_and_lost());
                     tradingSymbol.setText(companyData.getTradingsymbol());
                     companyName.setText(companyData.getName());
                     exchange.setText(companyData.getExchange());
-                    stockPrice.setText(historicalData.getLast_price());
+                    stockPrice.setText("₹ " + historicalData.getLast_price());
 
                 }
 
@@ -172,7 +174,6 @@ public class CompanyDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<CompanyDetailModel> call, Throwable t) {
-
 
             }
         });
@@ -188,26 +189,19 @@ public class CompanyDetailActivity extends AppCompatActivity {
             public void onResponse(Call<CompanyDetailModel> call, Response<CompanyDetailModel> response) {
 
                 CompanyDetailModel companyDetailModel = response.body();
-                CompanyDetailModel.CompanyData companyData = companyDetailModel.getCompanyData();
-                CompanyDetailModel.CompanyData.HistoricalData historicalData = companyData.getHistoricalData();
+
+                if (response.isSuccessful()) {
+
+                    CompanyDetailModel.CompanyData companyData = companyDetailModel.getCompanyData();
+                    CompanyDetailModel.CompanyData.HistoricalData historicalData = companyData.getHistoricalData();
 
 
-                double volumeValue = Double.parseDouble(historicalData.getVolume());
-                double openValue = Double.parseDouble(historicalData.getOpen());
-                double highValue = Double.parseDouble(historicalData.getHigh());
-                double lowValue = Double.parseDouble(historicalData.getLow());
-                double closeValue = Double.parseDouble(historicalData.getClose());
-                double lowerCircuitValue = Double.parseDouble(historicalData.getLower_circuit_limit());
-                double upperCircuitValue = Double.parseDouble(historicalData.getUpper_circuit_limit());
-
-                double lastPriceValue = Double.parseDouble(historicalData.getLast_price());
-
-
-                tradingSymbol.setText(companyData.getTradingsymbol());
-                companyName.setText(companyData.getName());
-                exchange.setText(companyData.getExchange());
-                stockPrice.setText(historicalData.getLast_price());
-
+                    percentageVal.setText("("+historicalData.getPercentage_val()+")");
+                    profitAndLost.setText("₹ " + historicalData.getProfit_and_lost());
+                    tradingSymbol.setText(companyData.getTradingsymbol());
+                    companyName.setText(companyData.getName());
+                    exchange.setText(companyData.getExchange());
+                    stockPrice.setText("₹ " + historicalData.getLast_price());
 
 //                volume.setText(new DecimalFormat("##.##").format(volumeValue));
 //                open.setText(new DecimalFormat("##.##").format(openValue));
@@ -217,7 +211,7 @@ public class CompanyDetailActivity extends AppCompatActivity {
 //                lowerCircuit.setText(new DecimalFormat("##.##").format(lowerCircuitValue));
 //                upperCircuit.setText(new DecimalFormat("##.##").format(upperCircuitValue));
 
-
+                }
             }
 
             @Override
@@ -260,7 +254,7 @@ public class CompanyDetailActivity extends AppCompatActivity {
             public void run() {
 
 
-//                getLiveCompanyDetail(token, userId, instrumentToken);
+                getLiveCompanyDetail(token, userId, instrumentToken);
 
                 handler.postDelayed(this, delay);
             }

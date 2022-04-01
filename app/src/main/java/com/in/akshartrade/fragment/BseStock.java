@@ -154,13 +154,25 @@ public class BseStock extends Fragment {
             @Override
             public void onItemClick(int position) {
 
+            }
+
+            @Override
+            public void onBuyClick(int position) {
                 String instrumentToken = nseStockModelList.get(position).getInstrument_token();
                 Intent intent = new Intent(getContext(), CompanyDetailActivity.class);
                 intent.putExtra("instrumentToken", instrumentToken);
                 startActivity(intent);
+            }
 
+            @Override
+            public void onSellClick(int position) {
+                String instrumentToken = nseStockModelList.get(position).getInstrument_token();
+                Intent intent = new Intent(getContext(), CompanyDetailActivity.class);
+                intent.putExtra("instrumentToken", instrumentToken);
+                startActivity(intent);
             }
         });
+
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         stockRecycler.setLayoutManager(layoutManager);

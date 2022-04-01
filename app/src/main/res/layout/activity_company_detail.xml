@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="RELIANCE"
+                android:text=""
                 android:textSize="@dimen/_18sdp" />
 
             <ImageView
@@ -72,7 +72,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="RELIANCE INDUSTRIES LTD" />
+                    />
 
                 <TextView
                     android:id="@+id/stockPrice"
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:text="₹ 2089.05" />
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout
@@ -98,7 +98,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="NSE EQ" />
+                    android:text="" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -106,20 +106,22 @@
                     android:layout_weight="1">
 
                     <TextView
+                        android:id="@+id/profitAndLost"
                         style="@style/q_reg_white_12"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
-                        android:text="- 45.20" />
+                        android:text="" />
 
                     <TextView
+                        android:id="@+id/percentageVal"
                         style="@style/q_reg_white_12"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
-                        android:text="(2.12%)" />
+                        android:text="" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

@@ -9,13 +9,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,12 +48,12 @@ public class SearchActivity extends AppCompatActivity {
     RecyclerView searchRecycler;
     SearchAdapter searchAdapter;
     List<SearchModel.SearchData> searchList = new ArrayList<>();
+    ProgressBar progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
 
         init();
 
@@ -64,6 +67,13 @@ public class SearchActivity extends AppCompatActivity {
         edtSearch = findViewById(R.id.edtSearch);
         clearSearch = findViewById(R.id.clearSearch);
         back = findViewById(R.id.back);
+        progressDialog = findViewById(R.id.progressDialog);
+
+
+        edtSearch.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(edtSearch, InputMethodManager.SHOW_IMPLICIT);
+
 
         clearSearch.setVisibility(View.GONE);
 
@@ -104,9 +114,10 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                progressDialog.setVisibility(View.VISIBLE);
                 getSearchData(token, userId, edtSearch.getText().toString());
                 clearSearch.setVisibility(View.VISIBLE);
+
 
             }
         });
@@ -127,7 +138,7 @@ public class SearchActivity extends AppCompatActivity {
                 SearchModel searchModel = response.body();
 
                 searchList.clear();
-                if (searchModel != null) {
+                if (response.isSuccessful()) {
                     List<SearchModel.SearchData> dataList = searchModel.getSearchDataList();
                     for (int i = 0; i < dataList.size(); i++) {
 
@@ -139,6 +150,7 @@ public class SearchActivity extends AppCompatActivity {
                         );
 
                         searchList.add(data);
+                        progressDialog.setVisibility(View.GONE);
                     }
                     searchData();
                 } else {

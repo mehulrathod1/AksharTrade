@@ -65,22 +65,25 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
+                    android:visibility="gone"
                     android:src="@drawable/sort" />
 
                 <ImageView
                     android:id="@+id/watchList"
                     android:layout_width="0dp"
+                    android:visibility="gone"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
                     android:src="@drawable/pluse" />
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:layout_marginBottom="@dimen/_16sdp"
-                    android:background="@color/white" />
+<!--                <View-->
+<!--                    android:layout_width="1dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_marginTop="@dimen/_16sdp"-->
+<!--                    android:layout_marginBottom="@dimen/_16sdp"-->
+<!--                    -->
+<!--                    android:background="@color/white" />-->
 
                 <ImageView
                     android:layout_width="0dp"
@@ -106,9 +109,10 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:orientation="vertical">
 
 
@@ -126,16 +130,16 @@
                             android:text="₹ 50000" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:orientation="vertical">-->
 
-                        <lecho.lib.hellocharts.view.LineChartView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
-                    </LinearLayout>
+<!--                        <lecho.lib.hellocharts.view.LineChartView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent"/>-->
+<!--                    </LinearLayout>-->
 
                 </LinearLayout>
 
@@ -149,9 +153,10 @@
 
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:orientation="vertical">
 
 
@@ -169,15 +174,15 @@
                             android:text="₹ 50000" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <lecho.lib.hellocharts.view.LineChartView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
-                    </LinearLayout>
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:orientation="vertical">-->
+<!--                        <lecho.lib.hellocharts.view.LineChartView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent"/>-->
+<!--                    </LinearLayout>-->
 
 
                 </LinearLayout>

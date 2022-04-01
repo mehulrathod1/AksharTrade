@@ -176,6 +176,29 @@ public class CompanyDetailModel {
             @Expose
             String volume;
 
+            @SerializedName("profit_and_lost")
+            @Expose
+            String profit_and_lost;
+
+            @SerializedName("percentage_val")
+            @Expose
+            String percentage_val;
+
+            public String getProfit_and_lost() {
+                return profit_and_lost;
+            }
+
+            public void setProfit_and_lost(String profit_and_lost) {
+                this.profit_and_lost = profit_and_lost;
+            }
+
+            public String getPercentage_val() {
+                return percentage_val;
+            }
+
+            public void setPercentage_val(String percentage_val) {
+                this.percentage_val = percentage_val;
+            }
 
             public String getLast_trade_time() {
                 return last_trade_time;

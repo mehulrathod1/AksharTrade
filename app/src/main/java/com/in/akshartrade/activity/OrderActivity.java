@@ -15,11 +15,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.in.akshartrade.Adapter.OrderAdapter;
 import com.in.akshartrade.Model.CommonModel;
 import com.in.akshartrade.Model.OrderModel;
+import com.in.akshartrade.Model.SenSexDataModel;
 import com.in.akshartrade.R;
 import com.in.akshartrade.Utils.Api;
 import com.in.akshartrade.Utils.Glob;
@@ -41,6 +43,8 @@ public class OrderActivity extends AppCompatActivity {
     ImageView profile;
     BottomNavigationView bottomNavigationView;
 
+    TextView  senSexPrice, niftyPrice;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,8 @@ public class OrderActivity extends AppCompatActivity {
         init();
         clickEvent();
         getOrder(token, userId);
+        getSenSexData(token, userId);
+        getNiftyData(token, userId);
 
     }
 
@@ -58,6 +64,9 @@ public class OrderActivity extends AppCompatActivity {
         Glob.progressDialog(this);
         orderRecycler = findViewById(R.id.orderRecycler);
         profile = findViewById(R.id.profile);
+        senSexPrice = findViewById(R.id.senSexPrice);
+        niftyPrice = findViewById(R.id.niftyPrice);
+
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
 
@@ -196,6 +205,65 @@ public class OrderActivity extends AppCompatActivity {
         orderRecycler.setAdapter(orderAdapter);
 
 
+    }
+
+    public void getSenSexData(String token, String userId) {
+
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+//        dialog.show();
+
+
+        call.getSenSexData(token, userId).enqueue(new Callback<SenSexDataModel>() {
+            @Override
+            public void onResponse(Call<SenSexDataModel> call, Response<SenSexDataModel> response) {
+
+                SenSexDataModel senSexDataModel = response.body();
+
+                if (response.isSuccessful()) {
+                    SenSexDataModel.SenSEexData model = senSexDataModel.getSenSEexData();
+                    senSexPrice.setText("₹ "+ model.getLast_price());
+
+//                dialog.dismiss();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SenSexDataModel> call, Throwable t) {
+
+//                dialog.dismiss();
+            }
+        });
+    }
+
+    public void getNiftyData(String token, String userId) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+//        dialog.show();
+
+
+        call.getNiftyData(token, userId).enqueue(new Callback<SenSexDataModel>() {
+            @Override
+            public void onResponse(Call<SenSexDataModel> call, Response<SenSexDataModel> response) {
+
+                SenSexDataModel senSexDataModel = response.body();
+
+                if (response.isSuccessful()) {
+                    SenSexDataModel.SenSEexData model = senSexDataModel.getSenSEexData();
+                    niftyPrice.setText("₹ "+ model.getLast_price());
+
+//                dialog.dismiss();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SenSexDataModel> call, Throwable t) {
+
+//                dialog.dismiss();
+            }
+        });
     }
 
     @Override

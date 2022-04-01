@@ -7,12 +7,11 @@
     tools:context=".Activity.HistoryActivity">
 
 
-
     <RelativeLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottomMenu">
+        android:layout_above="@+id/buttonLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,11 +26,11 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/profile"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
-                    android:id="@+id/profile"
                     android:src="@drawable/profile" />
 
 
@@ -66,9 +65,10 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:orientation="vertical">
 
 
@@ -79,17 +79,14 @@
                             android:text="SENSEX" />
 
                         <TextView
+
+                            android:id="@+id/senSexPrice"
                             style="@style/q_semi_white_16"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="₹ 50000" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"></LinearLayout>
 
                 </LinearLayout>
 
@@ -102,9 +99,10 @@
 
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:orientation="vertical">
 
 
@@ -115,17 +113,12 @@
                             android:text="NIFTY" />
 
                         <TextView
+                            android:id="@+id/niftyPrice"
                             style="@style/q_semi_white_16"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="₹ 50000" />
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"></LinearLayout>
 
 
                 </LinearLayout>
@@ -184,6 +177,21 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_above="@+id/bottomMenu"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp">
+
+        <Button
+            android:id="@+id/showDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="show More Detail" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/bottomMenu"
@@ -200,10 +208,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_16sdp"
             android:background="@color/dark_blue"
-            app:labelVisibilityMode="labeled"
             android:fitsSystemWindows="true"
             app:itemIconTint="@drawable/tab_item_selected"
             app:itemTextColor="@drawable/tab_item_selected"
+            app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_menu" />
 
     </LinearLayout>

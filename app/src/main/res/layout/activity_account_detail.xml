@@ -9,7 +9,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,7 +46,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="@dimen/_100sdp"
@@ -55,70 +57,107 @@
                     android:src="@drawable/login_bg" />
 
                 <TextView
-                    android:id="@+id/userName"
                     style="@style/q_bold_blue_16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_12sdp"
+                    android:visibility="gone"
                     android:gravity="center"
-                    android:text="Mehul Rathod" />
+                    android:text="" />
             </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginLeft="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginRight="@dimen/_16sdp"
                 android:orientation="vertical">
 
-
                 <TextView
+                    style="@style/q_semi_blue_14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:text="@string/Name" />
+
+                <EditText
+                    android:id="@+id/userName"
+                    style="@style/q_bold_blue_14"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:backgroundTint="@color/white"
+                    android:text="" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:layout_marginBottom="@dimen/_14sdp"
+                    android:background="@color/gray_dark" />
+
+
+                <TextView
                     style="@style/q_semi_blue_14"
-                    android:text="@string/Email"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Email" />
 
                 <EditText
                     android:id="@+id/userEmail"
+                    style="@style/q_bold_blue_14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/q_bold_blue_14"
-                    android:backgroundTint="@color/white"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:text="abc@gmail.com"/>
+                    android:backgroundTint="@color/white"
+                    android:text="" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_1sdp"
-                    android:background="@color/gray_dark"
                     android:layout_marginTop="@dimen/_14sdp"
-                    android:layout_marginBottom="@dimen/_14sdp"/>
+                    android:layout_marginBottom="@dimen/_14sdp"
+                    android:background="@color/gray_dark" />
+
                 <TextView
+                    style="@style/q_semi_blue_14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/q_semi_blue_14"
-                    android:text="@string/Mobile"/>
+                    android:text="@string/Mobile" />
 
                 <EditText
                     android:id="@+id/userMobileNumber"
+                    style="@style/q_bold_blue_14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/q_bold_blue_14"
-                    android:backgroundTint="@color/white"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:text="0987654321"/>
+                    android:backgroundTint="@color/white"
+                    android:text="" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_1sdp"
-                    android:background="@color/gray_dark"
                     android:layout_marginTop="@dimen/_14sdp"
-                    android:layout_marginBottom="@dimen/_14sdp"/>
+                    android:layout_marginBottom="@dimen/_14sdp"
+                    android:background="@color/gray_dark" />
 
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 
-</RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_12sdp"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update" />
+    </RelativeLayout>
+    </RelativeLayout>

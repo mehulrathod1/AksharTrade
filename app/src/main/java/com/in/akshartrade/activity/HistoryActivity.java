@@ -15,12 +15,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.in.akshartrade.Adapter.OrderAdapter;
 import com.in.akshartrade.Model.OrderModel;
+import com.in.akshartrade.Model.SenSexDataModel;
 import com.in.akshartrade.Model.TotalBalanceModel;
 import com.in.akshartrade.R;
 import com.in.akshartrade.Utils.Api;
@@ -43,6 +46,9 @@ public class HistoryActivity extends AppCompatActivity {
     ImageView profile;
     BottomNavigationView bottomNavigationView;
     BottomSheetDialog bottomSheetDialog;
+    Button showDetail;
+    TextView currentValue, totalInvestment, todayProfitLoss, profitAndLoss;
+    TextView  senSexPrice, niftyPrice;
 
 
     @Override
@@ -53,7 +59,9 @@ public class HistoryActivity extends AppCompatActivity {
         init();
         clickEvent();
         getHistory(token, userId);
-
+        getTotalBalance(token, userId);
+        getSenSexData(token, userId);
+        getNiftyData(token, userId);
 
     }
 
@@ -63,11 +71,25 @@ public class HistoryActivity extends AppCompatActivity {
         historyRecycler = findViewById(R.id.orderRecycler);
         profile = findViewById(R.id.profile);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        showDetail = findViewById(R.id.showDetail);
+        senSexPrice = findViewById(R.id.senSexPrice);
+        niftyPrice = findViewById(R.id.niftyPrice);
 
 
         bottomSheetDialog = new BottomSheetDialog(HistoryActivity.this);
         bottomSheetDialog.setContentView(R.layout.history_dialog_layout);
-        dialog.show();
+
+        currentValue = bottomSheetDialog.findViewById(R.id.currentValue);
+        totalInvestment = bottomSheetDialog.findViewById(R.id.totalInvestment);
+        todayProfitLoss = bottomSheetDialog.findViewById(R.id.todayProfitLoss);
+        profitAndLoss = bottomSheetDialog.findViewById(R.id.profitAndLoss);
+
+        showDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.show();
+            }
+        });
 
         bottomNavigationView.setSelectedItemId(R.id.history);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -201,6 +223,65 @@ public class HistoryActivity extends AppCompatActivity {
 
     }
 
+    public void getSenSexData(String token, String userId) {
+
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+//        dialog.show();
+
+
+        call.getSenSexData(token, userId).enqueue(new Callback<SenSexDataModel>() {
+            @Override
+            public void onResponse(Call<SenSexDataModel> call, Response<SenSexDataModel> response) {
+
+                SenSexDataModel senSexDataModel = response.body();
+
+                if (response.isSuccessful()) {
+                    SenSexDataModel.SenSEexData model = senSexDataModel.getSenSEexData();
+                    senSexPrice.setText("₹ "+ model.getLast_price());
+
+//                dialog.dismiss();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SenSexDataModel> call, Throwable t) {
+
+//                dialog.dismiss();
+            }
+        });
+    }
+
+    public void getNiftyData(String token, String userId) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+//        dialog.show();
+
+
+        call.getNiftyData(token, userId).enqueue(new Callback<SenSexDataModel>() {
+            @Override
+            public void onResponse(Call<SenSexDataModel> call, Response<SenSexDataModel> response) {
+
+                SenSexDataModel senSexDataModel = response.body();
+
+                if (response.isSuccessful()) {
+                    SenSexDataModel.SenSEexData model = senSexDataModel.getSenSEexData();
+                    niftyPrice.setText("₹ "+ model.getLast_price());
+
+//                dialog.dismiss();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SenSexDataModel> call, Throwable t) {
+
+//                dialog.dismiss();
+            }
+        });
+    }
+
     public void getTotalBalance(String token, String userId) {
 
         Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
@@ -216,6 +297,11 @@ public class HistoryActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
 
                     TotalBalanceModel.TotalBalance model = totalBalanceModel.getTotalBalance();
+
+                    currentValue.setText("₹ "+model.getCurrent_value());
+                    totalInvestment.setText("₹ "+model.getTotal_invest());
+                    profitAndLoss.setText("₹ "+model.getProfit_and_lost());
+                    todayProfitLoss.setText("₹ "+model.getProfit_and_lost());
                     dialog.dismiss();
                 }
                 dialog.dismiss();

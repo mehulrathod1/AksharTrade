@@ -8,8 +8,9 @@
 
 
     <RelativeLayout
+        android:id="@+id/searchLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
 
         <LinearLayout
@@ -23,9 +24,9 @@
                 android:id="@+id/back"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_16sdp"
                 android:layout_weight="1"
                 android:scaleType="centerInside"
-                android:layout_marginLeft="@dimen/_16sdp"
                 android:src="@drawable/ic_baseline_arrow_back_ios_24" />
 
             <EditText
@@ -45,8 +46,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                >
+                android:layout_weight="1">
+
                 <ImageView
                     android:id="@+id/clearSearch"
                     android:layout_width="0dp"
@@ -58,19 +59,25 @@
             </LinearLayout>
 
         </LinearLayout>
+    </RelativeLayout>
 
-        <LinearLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchLayout">
+
+
+        <ProgressBar
+            android:id="@+id/progressDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_centerInParent="true"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchRecycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/layout"
-            android:orientation="horizontal">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/searchRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
 </RelativeLayout>

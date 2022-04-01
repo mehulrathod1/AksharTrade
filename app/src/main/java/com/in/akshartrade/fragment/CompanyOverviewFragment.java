@@ -40,9 +40,9 @@ public class CompanyOverviewFragment extends Fragment {
     View view;
 
     TextView volume, bid, ask, openInterest, atp, lowerCircuit, open, high, low, close, upperCircuit,
-            quantity, totalPrice,buyStock,sellStock;
+            quantity, totalPrice, buyStock, sellStock;
 
-    String instrumentToken,companyName,exchange;
+    String instrumentToken, companyName, exchange;
 
 
     Handler handler = new Handler();
@@ -123,7 +123,7 @@ public class CompanyOverviewFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                addShareOrder(token,userId,
+                addShareOrder(token, userId,
                         instrumentToken,
                         "Q",
                         quantity.getText().toString(),
@@ -140,7 +140,7 @@ public class CompanyOverviewFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                sellStockOrder(token,userId,
+                sellStockOrder(token, userId,
                         instrumentToken,
                         "Q",
                         quantity.getText().toString(),
@@ -165,24 +165,27 @@ public class CompanyOverviewFragment extends Fragment {
             public void onResponse(Call<CompanyDetailModel> call, Response<CompanyDetailModel> response) {
 
                 CompanyDetailModel companyDetailModel = response.body();
-                CompanyDetailModel.CompanyData companyData = companyDetailModel.getCompanyData();
-                CompanyDetailModel.CompanyData.HistoricalData historicalData = companyData.getHistoricalData();
+
+                if (response.isSuccessful()) {
+                    CompanyDetailModel.CompanyData companyData = companyDetailModel.getCompanyData();
+                    CompanyDetailModel.CompanyData.HistoricalData historicalData = companyData.getHistoricalData();
 
 
-                volume.setText(historicalData.getVolume());
-                open.setText(historicalData.getOpen());
-                high.setText(historicalData.getHigh());
-                low.setText(historicalData.getLow());
-                close.setText(historicalData.getClose());
-                lowerCircuit.setText(historicalData.getLower_circuit_limit());
-                upperCircuit.setText(historicalData.getUpper_circuit_limit());
-                totalPrice.setText(historicalData.getLast_price());
+                    volume.setText(historicalData.getVolume());
+                    open.setText(historicalData.getOpen());
+                    high.setText(historicalData.getHigh());
+                    low.setText(historicalData.getLow());
+                    close.setText(historicalData.getClose());
+                    lowerCircuit.setText(historicalData.getLower_circuit_limit());
+                    upperCircuit.setText(historicalData.getUpper_circuit_limit());
+                    totalPrice.setText(historicalData.getLast_price());
 
-                instrumentToken = companyData.getInstrument_token();
-                companyName = companyData.getName();
-                exchange = companyData.getExchange();
+                    instrumentToken = companyData.getInstrument_token();
+                    companyName = companyData.getName();
+                    exchange = companyData.getExchange();
 
-                dialog.dismiss();
+                    dialog.dismiss();
+                }
             }
 
             @Override
@@ -222,9 +225,9 @@ public class CompanyOverviewFragment extends Fragment {
     }
 
     public void sellStockOrder(String token, String user_id, String instrument_token,
-                              String stake, String quantity, String price, String order_type,
-                              String name, String exchange,
-                              String lot_size) {
+                               String stake, String quantity, String price, String order_type,
+                               String name, String exchange,
+                               String lot_size) {
 
         Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
         dialog.show();
@@ -250,15 +253,15 @@ public class CompanyOverviewFragment extends Fragment {
         });
 
     }
-        public void scheduleSendLocation() {
+
+    public void scheduleSendLocation() {
 
         handler.postDelayed(new Runnable() {
             public void run() {
 
-                if (getContext().equals(null)){
+                if (getContext().equals(null)) {
 
-                }
-                else {
+                } else {
 
                 }
                 handler.postDelayed(this, delay);
