@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -47,6 +48,7 @@ public class CompanyDetailActivity extends AppCompatActivity {
     long delay = 2000;
     String instrumentToken;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,10 +60,13 @@ public class CompanyDetailActivity extends AppCompatActivity {
         instrumentToken = intent.getStringExtra("instrumentToken");
         Glob.instrumentalToken = instrumentToken;
 
+        Log.e(Glob.TAG, "onCreate: "+instrumentToken );
+
+
         init();
         clickEvent();
         getCompanyDetail(token, userId, instrumentToken);
-        scheduleSendLocation();
+        autoUpdate();
 
     }
 
@@ -248,7 +253,7 @@ public class CompanyDetailActivity extends AppCompatActivity {
         });
     }
 
-    public void scheduleSendLocation() {
+    public void autoUpdate() {
 
         handler.postDelayed(new Runnable() {
             public void run() {

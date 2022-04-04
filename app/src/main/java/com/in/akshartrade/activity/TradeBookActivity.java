@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.in.akshartrade.Adapter.OrderAdapter;
+import com.in.akshartrade.Dialog.CompanyDetailActivity;
 import com.in.akshartrade.Model.OrderModel;
 import com.in.akshartrade.Model.SenSexDataModel;
 import com.in.akshartrade.R;
@@ -44,6 +46,9 @@ public class TradeBookActivity extends AppCompatActivity {
     ImageView profile;
     TextView senSexPrice, niftyPrice;
 
+    Handler handler = new Handler();
+    Runnable runnable;
+    long delay = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +58,10 @@ public class TradeBookActivity extends AppCompatActivity {
         init();
         clickEvent();
         orderData();
-        getTrade(token,userId);
+        getTrade(token, userId);
         getSenSexData(token, userId);
         getNiftyData(token, userId);
-
+        autoUpdate();
     }
 
     public void init() {
@@ -68,7 +73,6 @@ public class TradeBookActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         senSexPrice = findViewById(R.id.senSexPrice);
         niftyPrice = findViewById(R.id.niftyPrice);
-
 
 
         bottomNavigationView.setSelectedItemId(R.id.tradeBook);
@@ -184,6 +188,61 @@ public class TradeBookActivity extends AppCompatActivity {
 
 
     }
+    public void getLiveTrade(String token, String userId) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+//        dialog.show();
+
+
+        call.getTrade(token, userId).enqueue(new Callback<OrderModel>() {
+            @Override
+            public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+
+                tradeBookList.clear();
+                OrderModel orderModel = response.body();
+                if (response.isSuccessful()) {
+                    List<OrderModel.OrderData> dataList = orderModel.getOrderData();
+
+                    for (int i = 0; i < dataList.size(); i++) {
+
+                        OrderModel.OrderData model = dataList.get(i);
+
+                        OrderModel.OrderData data = new OrderModel.OrderData(
+                                model.getInstrument_token(),
+                                model.getExchange_token(),
+                                model.getTradingsymbol(),
+                                model.getName(),
+                                model.getLTP(),
+                                model.getPL_sign(),
+                                model.getpAndL(),
+                                model.getQTY(),
+                                model.getExchange(),
+                                model.getOrder_type()
+                        );
+                        tradeBookList.add(data);
+
+                        Log.d("orderList", "onResponse: " + model.getpAndL());
+
+                    }
+                    if (tradeAdapter != null){
+                        tradeAdapter.notifyDataSetChanged();
+                    }
+                    else {
+                        orderData();
+//                        dialog.dismiss();
+                    }
+                }
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<OrderModel> call, Throwable t) {
+
+            }
+        });
+
+
+    }
 
     public void orderData() {
 
@@ -192,6 +251,14 @@ public class TradeBookActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
 
+                if (tradeBookList.size() >0){
+
+
+                    String instrumentToken = tradeBookList.get(position).getInstrument_token();
+                    Intent intent = new Intent(getApplicationContext(), CompanyDetailActivity.class);
+                    intent.putExtra("instrumentToken", instrumentToken);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -203,18 +270,7 @@ public class TradeBookActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
 
-        Intent intent;
-        intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(0, 0);
-        super.onBackPressed();
-
-
-    }
     public void getSenSexData(String token, String userId) {
 
 
@@ -230,7 +286,7 @@ public class TradeBookActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     SenSexDataModel.SenSEexData model = senSexDataModel.getSenSEexData();
-                    senSexPrice.setText("₹ "+ model.getLast_price());
+                    senSexPrice.setText("₹ " + model.getLast_price());
 
 //                dialog.dismiss();
 
@@ -259,7 +315,7 @@ public class TradeBookActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     SenSexDataModel.SenSEexData model = senSexDataModel.getSenSEexData();
-                    niftyPrice.setText("₹ "+ model.getLast_price());
+                    niftyPrice.setText("₹ " + model.getLast_price());
 
 //                dialog.dismiss();
 
@@ -274,4 +330,37 @@ public class TradeBookActivity extends AppCompatActivity {
         });
     }
 
+    public void autoUpdate() {
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+
+
+                getSenSexData(token, userId);
+                getNiftyData(token, userId);
+                getLiveTrade(token, userId);
+                handler.postDelayed(this, delay);
+
+            }
+        }, delay);
+    }
+
+    @Override
+    public void onPause() {
+        handler.removeCallbacks(runnable); //stop handler when activity not visible super.onPause();
+        super.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent intent;
+        intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(0, 0);
+        super.onBackPressed();
+
+
+    }
 }

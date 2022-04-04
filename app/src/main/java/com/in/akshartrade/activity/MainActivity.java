@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,7 +53,12 @@ public class MainActivity extends AppCompatActivity {
     TextView txt_Search, senSexPrice, niftyPrice;
     ImageView profile, watchList;
     BottomNavigationView bottomNavigationView;
-    LineChartView lineChart ;
+    LineChartView lineChart;
+
+    Handler handler = new Handler();
+    Runnable runnable;
+    long delay = 2000;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         clickEvent();
         getSenSexData(token, userId);
         getNiftyData(token, userId);
+        autoUpdate();
 
 //        lineChart = findViewById(R.id.lineChartll);
 //        lineChart = new LineChartView(getApplicationContext());
@@ -84,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         senSexPrice = findViewById(R.id.senSexPrice);
         niftyPrice = findViewById(R.id.niftyPrice);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-
 
 
         tabLayout.addTab(tabLayout.newTab().setText("WatchList 1"));
@@ -203,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     SenSexDataModel.SenSEexData model = senSexDataModel.getSenSEexData();
-                    senSexPrice.setText("₹ "+ model.getLast_price());
+                    senSexPrice.setText("₹ " + model.getLast_price());
 
 //                dialog.dismiss();
 
@@ -232,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     SenSexDataModel.SenSEexData model = senSexDataModel.getSenSEexData();
-                    niftyPrice.setText("₹ "+ model.getLast_price());
+                    niftyPrice.setText("₹ " + model.getLast_price());
 
 //                dialog.dismiss();
 
@@ -252,6 +258,30 @@ public class MainActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
+
+    public void autoUpdate() {
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+
+
+                getSenSexData(token, userId);
+                getNiftyData(token, userId);
+
+                handler.postDelayed(this, delay);
+
+
+            }
+        }, delay);
+    }
+    @Override
+    public void onPause() {
+        handler.removeCallbacks(runnable); //stop handler when activity not visible super.onPause();
+        super.onPause();
+    }
+
+
+
 
 //    public void setLineChart(){
 //

@@ -51,6 +51,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
         String orderType = model.getOrder_type();
 
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                click.onItemClick(position);
+            }
+        });
+
         if (orderType.equals("Buy")){
             holder.orderType.setText(model.getOrder_type());
             holder.orderType.setTextColor(Color.parseColor("#58B182"));

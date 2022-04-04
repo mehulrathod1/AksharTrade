@@ -64,7 +64,7 @@ public class CompanyOverviewFragment extends Fragment {
 
         init();
         getCompanyDetail(token, userId, Glob.instrumentalToken);
-
+        autoUpdate();
         return view;
     }
 
@@ -196,6 +196,47 @@ public class CompanyOverviewFragment extends Fragment {
         });
     }
 
+    public void getLiveCompanyDetail(String token, String user_id, String instrument_token) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+//        dialog.show();
+
+        call.getCompanyDetail(token, user_id, instrument_token).enqueue(new Callback<CompanyDetailModel>() {
+            @Override
+            public void onResponse(Call<CompanyDetailModel> call, Response<CompanyDetailModel> response) {
+
+                CompanyDetailModel companyDetailModel = response.body();
+
+                if (response.isSuccessful()) {
+                    CompanyDetailModel.CompanyData companyData = companyDetailModel.getCompanyData();
+                    CompanyDetailModel.CompanyData.HistoricalData historicalData = companyData.getHistoricalData();
+
+
+                    volume.setText(historicalData.getVolume());
+                    open.setText(historicalData.getOpen());
+                    high.setText(historicalData.getHigh());
+                    low.setText(historicalData.getLow());
+                    close.setText(historicalData.getClose());
+                    lowerCircuit.setText(historicalData.getLower_circuit_limit());
+                    upperCircuit.setText(historicalData.getUpper_circuit_limit());
+                    totalPrice.setText(historicalData.getLast_price());
+
+                    instrumentToken = companyData.getInstrument_token();
+                    companyName = companyData.getName();
+                    exchange = companyData.getExchange();
+
+                    dialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CompanyDetailModel> call, Throwable t) {
+
+                dialog.dismiss();
+            }
+        });
+    }
+
     public void addShareOrder(String token, String user_id, String instrument_token,
                               String stake, String quantity, String price, String order_type,
                               String name, String exchange,
@@ -211,15 +252,21 @@ public class CompanyOverviewFragment extends Fragment {
 
                 AddOrderModel commonModel = response.body();
 
-                Toast.makeText(getContext(), "" + commonModel.getMessage(), Toast.LENGTH_SHORT).show();
-
-                dialog.dismiss();
+                if (response.isSuccessful()) {
+                    Toast.makeText(getContext(), "" + commonModel.getMessage(), Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+                else {
+                    Toast.makeText(getContext(), "" + commonModel.getMessage(), Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
             }
 
             @Override
             public void onFailure(Call<AddOrderModel> call, Throwable t) {
 
                 dialog.dismiss();
+                Log.e(Glob.TAG, "onFailure: "+t.getMessage());
             }
         });
     }
@@ -227,7 +274,8 @@ public class CompanyOverviewFragment extends Fragment {
     public void sellStockOrder(String token, String user_id, String instrument_token,
                                String stake, String quantity, String price, String order_type,
                                String name, String exchange,
-                               String lot_size) {
+                               String lot_size)
+    {
 
         Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
         dialog.show();
@@ -238,11 +286,8 @@ public class CompanyOverviewFragment extends Fragment {
             public void onResponse(Call<CommonModel> call, Response<CommonModel> response) {
 
                 CommonModel commonModel = response.body();
-
                 Toast.makeText(getContext(), "" + commonModel.getMessage(), Toast.LENGTH_SHORT).show();
-
                 dialog.dismiss();
-
             }
 
             @Override
@@ -254,15 +299,14 @@ public class CompanyOverviewFragment extends Fragment {
 
     }
 
-    public void scheduleSendLocation() {
+    public void autoUpdate() {
 
         handler.postDelayed(new Runnable() {
             public void run() {
 
-                if (getContext().equals(null)) {
+                if (getContext() != null) {
 
-                } else {
-
+                    getLiveCompanyDetail(token, userId, Glob.instrumentalToken);
                 }
                 handler.postDelayed(this, delay);
             }

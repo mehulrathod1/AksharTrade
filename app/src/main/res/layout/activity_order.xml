@@ -32,7 +32,6 @@
                     android:scaleType="centerInside"
                     android:src="@drawable/profile" />
 
-
                 <TextView
                     style="@style/q_bold_white_14"
                     android:layout_width="0dp"

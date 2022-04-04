@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,8 +49,11 @@ public class HistoryActivity extends AppCompatActivity {
     BottomSheetDialog bottomSheetDialog;
     Button showDetail;
     TextView currentValue, totalInvestment, todayProfitLoss, profitAndLoss;
-    TextView  senSexPrice, niftyPrice;
+    TextView senSexPrice, niftyPrice;
 
+    Handler handler = new Handler();
+    Runnable runnable;
+    long delay = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,8 @@ public class HistoryActivity extends AppCompatActivity {
         getTotalBalance(token, userId);
         getSenSexData(token, userId);
         getNiftyData(token, userId);
+
+        autoUpdate();
 
     }
 
@@ -163,7 +169,7 @@ public class HistoryActivity extends AppCompatActivity {
         call.getHistory(token, userId).enqueue(new Callback<OrderModel>() {
             @Override
             public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
-
+                historyList.clear();
                 OrderModel orderModel = response.body();
 
                 if (response.isSuccessful()) {
@@ -192,6 +198,63 @@ public class HistoryActivity extends AppCompatActivity {
                     }
                     orderData();
                     dialog.dismiss();
+                }
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<OrderModel> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
+    public void getLiveHistory(String token, String userId) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+//        dialog.show();
+
+
+        call.getHistory(token, userId).enqueue(new Callback<OrderModel>() {
+            @Override
+            public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+
+                historyList.clear();
+                OrderModel orderModel = response.body();
+
+                if (response.isSuccessful()) {
+                    List<OrderModel.OrderData> dataList = orderModel.getOrderData();
+
+                    for (int i = 0; i < dataList.size(); i++) {
+
+                        OrderModel.OrderData model = dataList.get(i);
+
+                        OrderModel.OrderData data = new OrderModel.OrderData(
+                                model.getInstrument_token(),
+                                model.getExchange_token(),
+                                model.getTradingsymbol(),
+                                model.getName(),
+                                model.getLTP(),
+                                model.getPL_sign(),
+                                model.getpAndL(),
+                                model.getQTY(),
+                                model.getExchange(),
+                                model.getOrder_type()
+                        );
+                        historyList.add(data);
+                        Log.d("orderList", "onResponse: " + model.getpAndL());
+
+                    }
+                    if (historyAdapter != null) {
+
+                        historyAdapter.notifyDataSetChanged();
+//                        dialog.dismiss();
+                    }
+                    else {
+                        orderData();
+                    }
                 }
                 dialog.dismiss();
             }
@@ -238,7 +301,7 @@ public class HistoryActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     SenSexDataModel.SenSEexData model = senSexDataModel.getSenSEexData();
-                    senSexPrice.setText("₹ "+ model.getLast_price());
+                    senSexPrice.setText("₹ " + model.getLast_price());
 
 //                dialog.dismiss();
 
@@ -267,7 +330,7 @@ public class HistoryActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     SenSexDataModel.SenSEexData model = senSexDataModel.getSenSEexData();
-                    niftyPrice.setText("₹ "+ model.getLast_price());
+                    niftyPrice.setText("₹ " + model.getLast_price());
 
 //                dialog.dismiss();
 
@@ -298,10 +361,10 @@ public class HistoryActivity extends AppCompatActivity {
 
                     TotalBalanceModel.TotalBalance model = totalBalanceModel.getTotalBalance();
 
-                    currentValue.setText("₹ "+model.getCurrent_value());
-                    totalInvestment.setText("₹ "+model.getTotal_invest());
-                    profitAndLoss.setText("₹ "+model.getProfit_and_lost());
-                    todayProfitLoss.setText("₹ "+model.getProfit_and_lost());
+                    currentValue.setText("₹ " + model.getCurrent_value());
+                    totalInvestment.setText("₹ " + model.getTotal_invest());
+                    profitAndLoss.setText("₹ " + model.getProfit_and_lost());
+                    todayProfitLoss.setText("₹ " + model.getProfit_and_lost());
                     dialog.dismiss();
                 }
                 dialog.dismiss();
@@ -312,6 +375,60 @@ public class HistoryActivity extends AppCompatActivity {
 
             }
         });
+    }
+    public void getLiveTotalBalance(String token, String userId) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+//        dialog.show();
+
+
+        call.getTotalBalance(token, userId).enqueue(new Callback<TotalBalanceModel>() {
+            @Override
+            public void onResponse(Call<TotalBalanceModel> call, Response<TotalBalanceModel> response) {
+
+                TotalBalanceModel totalBalanceModel = response.body();
+
+                if (response.isSuccessful()) {
+
+                    TotalBalanceModel.TotalBalance model = totalBalanceModel.getTotalBalance();
+
+                    currentValue.setText("₹ " + model.getCurrent_value());
+                    totalInvestment.setText("₹ " + model.getTotal_invest());
+                    profitAndLoss.setText("₹ " + model.getProfit_and_lost());
+                    todayProfitLoss.setText("₹ " + model.getProfit_and_lost());
+//                    dialog.dismiss();
+                }
+//                dialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<TotalBalanceModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void autoUpdate() {
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+
+
+                getSenSexData(token, userId);
+                getNiftyData(token, userId);
+                getLiveHistory(token, userId);
+                getLiveTotalBalance(token, userId);
+                handler.postDelayed(this, delay);
+
+
+            }
+        }, delay);
+    }
+
+    @Override
+    public void onPause() {
+        handler.removeCallbacks(runnable); //stop handler when activity not visible super.onPause();
+        super.onPause();
     }
 
     @Override

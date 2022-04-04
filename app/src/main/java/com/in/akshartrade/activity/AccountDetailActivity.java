@@ -83,11 +83,13 @@ public class AccountDetailActivity extends AppCompatActivity {
             public void onResponse(Call<UserProfileModel> call, Response<UserProfileModel> response) {
 
                 UserProfileModel userProfileModel = response.body();
-                UserProfileModel.UserProfileData model = userProfileModel.getUserData();
-
-                userName.setText(model.getName());
-                userEmail.setText(model.getEmail());
-                userMobileNumber.setText(model.getMobile_no());
+                if (response.isSuccessful()) {
+                    UserProfileModel.UserProfileData model = userProfileModel.getUserData();
+                    userName.setText(model.getName());
+                    userEmail.setText(model.getEmail());
+                    userMobileNumber.setText(model.getMobile_no());
+                    dialog.dismiss();
+                }
                 dialog.dismiss();
             }
 

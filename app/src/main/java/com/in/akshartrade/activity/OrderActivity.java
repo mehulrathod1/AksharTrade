@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,8 +44,12 @@ public class OrderActivity extends AppCompatActivity {
     ImageView profile;
     BottomNavigationView bottomNavigationView;
 
-    TextView  senSexPrice, niftyPrice;
+    TextView senSexPrice, niftyPrice;
 
+
+    Handler handler = new Handler();
+    Runnable runnable;
+    long delay = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +60,7 @@ public class OrderActivity extends AppCompatActivity {
         getOrder(token, userId);
         getSenSexData(token, userId);
         getNiftyData(token, userId);
-
+        autoUpdate();
     }
 
 
@@ -137,6 +142,7 @@ public class OrderActivity extends AppCompatActivity {
 
     public void getOrder(String token, String userId) {
 
+
         Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
         dialog.show();
 
@@ -145,6 +151,7 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
 
+                orderList.clear();
                 OrderModel orderModel = response.body();
 
                 if (response.isSuccessful()) {
@@ -174,6 +181,63 @@ public class OrderActivity extends AppCompatActivity {
                     }
                     orderData();
                     dialog.dismiss();
+                }
+                dialog.dismiss();
+
+
+            }
+
+            @Override
+            public void onFailure(Call<OrderModel> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
+    public void getLiveOrder(String token, String userId) {
+
+        Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
+
+        call.getOrder(token, userId).enqueue(new Callback<OrderModel>() {
+            @Override
+            public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+
+                orderList.clear();
+                OrderModel orderModel = response.body();
+
+                if (response.isSuccessful()) {
+
+                    List<OrderModel.OrderData> dataList = orderModel.getOrderData();
+
+                    for (int i = 0; i < dataList.size(); i++) {
+
+                        OrderModel.OrderData model = dataList.get(i);
+
+                        OrderModel.OrderData data = new OrderModel.OrderData(
+                                model.getInstrument_token(),
+                                model.getExchange_token(),
+                                model.getTradingsymbol(),
+                                model.getName(),
+                                model.getLTP(),
+                                model.getPL_sign(),
+                                model.getpAndL(),
+                                model.getQTY(),
+                                model.getExchange(),
+                                model.getOrder_type()
+                        );
+                        orderList.add(data);
+
+                        Log.d("orderList", "onResponse: " + model.getpAndL());
+
+                    }
+                    if (orderAdapter != null) {
+                        orderAdapter.notifyDataSetChanged();
+                    } else {
+                        orderData();
+                    }
+//                    dialog.dismiss();
                 }
                 dialog.dismiss();
 
@@ -222,7 +286,7 @@ public class OrderActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     SenSexDataModel.SenSEexData model = senSexDataModel.getSenSEexData();
-                    senSexPrice.setText("₹ "+ model.getLast_price());
+                    senSexPrice.setText("₹ " + model.getLast_price());
 
 //                dialog.dismiss();
 
@@ -251,7 +315,7 @@ public class OrderActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     SenSexDataModel.SenSEexData model = senSexDataModel.getSenSEexData();
-                    niftyPrice.setText("₹ "+ model.getLast_price());
+                    niftyPrice.setText("₹ " + model.getLast_price());
 
 //                dialog.dismiss();
 
@@ -276,6 +340,27 @@ public class OrderActivity extends AppCompatActivity {
         overridePendingTransition(0, 0);
         super.onBackPressed();
 
+    }
 
+    public void autoUpdate() {
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+
+
+                getSenSexData(token, userId);
+                getNiftyData(token, userId);
+                getLiveOrder(token, userId);
+
+                handler.postDelayed(this, delay);
+
+            }
+        }, delay);
+    }
+
+    @Override
+    public void onPause() {
+        handler.removeCallbacks(runnable); //stop handler when activity not visible super.onPause();
+        super.onPause();
     }
 }

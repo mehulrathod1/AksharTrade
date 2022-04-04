@@ -7,12 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.in.akshartrade.Fragment.BseStock;
 import com.in.akshartrade.Fragment.CompanyOptionChainFragment;
 import com.in.akshartrade.Fragment.CompanyOverviewFragment;
-import com.in.akshartrade.Fragment.FoStock;
-import com.in.akshartrade.Fragment.McxStock;
-import com.in.akshartrade.Fragment.NseStock;
 
 public class TabCompanyDetailAdapter extends FragmentPagerAdapter {
 

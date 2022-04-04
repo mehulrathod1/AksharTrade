@@ -10,8 +10,7 @@
         android:id="@+id/detailLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/history_bg"
-        >
+        android:background="@drawable/history_bg">
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -7,10 +7,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.in.akshartrade.Fragment.BseStock;
-import com.in.akshartrade.Fragment.FoStock;
-import com.in.akshartrade.Fragment.McxStock;
-import com.in.akshartrade.Fragment.NseStock;
+import com.in.akshartrade.Fragment.WatchListTwo;
+import com.in.akshartrade.Fragment.WatchListFour;
+import com.in.akshartrade.Fragment.WatchListThree;
+import com.in.akshartrade.Fragment.WatchListOne;
 
 public class TabStockAdapter extends FragmentPagerAdapter {
 
@@ -32,21 +32,21 @@ public class TabStockAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                NseStock nseStock = new NseStock();
-                return nseStock;
+                WatchListOne watchListOne = new WatchListOne();
+                return watchListOne;
 
             case 1:
-                BseStock bseStock = new BseStock();
-                return bseStock;
+                WatchListTwo watchListTwo = new WatchListTwo();
+                return watchListTwo;
 
             case 2:
 
-                McxStock mcxStock = new McxStock();
-                return mcxStock;
+                WatchListThree watchListThree = new WatchListThree();
+                return watchListThree;
             case 3:
 
-                FoStock foStock = new FoStock();
-                return foStock;
+                WatchListFour watchListFour = new WatchListFour();
+                return watchListFour;
             default:
                 return null;
         }
