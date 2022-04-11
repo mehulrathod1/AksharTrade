@@ -44,7 +44,7 @@ public class WatchListFour extends Fragment {
 
     Handler handler = new Handler();
     Runnable runnable;
-    long delay = 5000;
+    long delay = 2000;
     ProgressBar progressBar;
 
     @Override

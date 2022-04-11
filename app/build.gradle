@@ -59,8 +59,8 @@ dependencies {
 //    implementation "androidx.lifecycle:lifecycle-livedata:2.5.0"
 //    implementation "androidx.lifecycle:lifecycle-viewmodel:2.5.0"
 
-
-
-
-
+    implementation 'com.github.akshaaatt:Sliding-Carousel:1.0.4'
+    implementation ('io.socket:socket.io-client:2.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
 }

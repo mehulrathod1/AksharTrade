@@ -45,16 +45,20 @@
             android:name=".Dialog.CompanyDetailActivity"
             android:excludeFromRecents="true"
             android:exported="true"
-            android:theme="@style/ActivityDialogTheme" />
+            android:theme="@style/ActivityDialogTheme"
+            />
         <activity
             android:name=".Activity.SignIn"
             android:exported="true" />
         <activity
             android:name=".Activity.MainActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activity.Login"
-            android:exported="true"></activity>
+            android:exported="true">
+
+        </activity>
     </application>
 
 </manifest>

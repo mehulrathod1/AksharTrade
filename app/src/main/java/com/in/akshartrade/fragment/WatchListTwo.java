@@ -1,5 +1,6 @@
 package com.in.akshartrade.Fragment;
 
+import static com.in.akshartrade.Utils.Glob.TAG;
 import static com.in.akshartrade.Utils.Glob.dialog;
 import static com.in.akshartrade.Utils.Glob.token;
 import static com.in.akshartrade.Utils.Glob.userId;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +46,7 @@ public class WatchListTwo extends Fragment {
 
     Handler handler = new Handler();
     Runnable runnable;
-    long delay = 5000;
+    long delay = 2000;
     ProgressBar progressBar;
 
     @Override
@@ -205,7 +207,8 @@ public class WatchListTwo extends Fragment {
 
                 if (getActivity() != null) {
 
-//                    getLiveWatchList(token, userId, "2");
+                    getLiveWatchList(token, userId, "2");
+                    Log.e(TAG, "run: "+0000 );
 
                 }
                 handler.postDelayed(this, delay);

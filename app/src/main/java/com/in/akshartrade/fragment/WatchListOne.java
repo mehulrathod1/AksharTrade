@@ -11,6 +11,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.util.Log;
@@ -48,7 +49,8 @@ public class WatchListOne extends Fragment {
 
     Handler handler = new Handler();
     Runnable runnable;
-    long delay = 2000;
+    long delay = 5000;
+    SwipeRefreshLayout pullToRefresh;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,8 +65,18 @@ public class WatchListOne extends Fragment {
 
         init();
         getWatchList(token, userId, "1");
-        scheduleSendLocation();
+        autoUpdate();
 
+        pullToRefresh = view.findViewById(R.id.pullToRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+//                refreshData(); // your code
+                pullToRefresh.setRefreshing(true);
+                getLiveWatchList(token, userId, "1");
+
+            }
+        });
 
         return view;
 
@@ -75,6 +87,7 @@ public class WatchListOne extends Fragment {
         Glob.progressDialog(getContext());
         stockRecycler = view.findViewById(R.id.recyclerview);
         progressBar = view.findViewById(R.id.progressBar);
+
 
     }
 
@@ -117,8 +130,7 @@ public class WatchListOne extends Fragment {
                     Log.e("run", "run: " + "0");
 
 
-                }
-                else {
+                } else {
                     progressBar.setVisibility(View.VISIBLE);
                     Log.e("run", "run: " + "2");
 
@@ -162,21 +174,24 @@ public class WatchListOne extends Fragment {
                                 model.getTradingsymbol(),
                                 model.getName(),
                                 model.getExchange(), model.getChart_data()
-                        );
 
+
+                        );
                         nseStockModelList.add(data);
+
 
 
                     }
                     if (nseStockAdapter != null) {
                         nseStockAdapter.notifyDataSetChanged();
                         progressBar.setVisibility(View.GONE);
-                        Log.e(TAG, "onResponse: "+"4");
-
+                        Log.e(TAG, "onResponse: " + "4");
+                        pullToRefresh.setRefreshing(false);
                     } else {
                         nseListData();
                         progressBar.setVisibility(View.GONE);
                         Log.e("run", "run: " + "5");
+                        pullToRefresh.setRefreshing(false);
 
                     }
 //                    nseListData();
@@ -228,7 +243,7 @@ public class WatchListOne extends Fragment {
         stockRecycler.setAdapter(nseStockAdapter);
     }
 
-    public void scheduleSendLocation() {
+    public void autoUpdate() {
 
         handler.postDelayed(new Runnable() {
             public void run() {

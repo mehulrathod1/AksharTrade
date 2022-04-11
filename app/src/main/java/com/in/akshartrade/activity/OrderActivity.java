@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -45,6 +46,7 @@ public class OrderActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
     TextView senSexPrice, niftyPrice;
+    ProgressBar progressBar;
 
 
     Handler handler = new Handler();
@@ -71,6 +73,7 @@ public class OrderActivity extends AppCompatActivity {
         profile = findViewById(R.id.profile);
         senSexPrice = findViewById(R.id.senSexPrice);
         niftyPrice = findViewById(R.id.niftyPrice);
+        progressBar = findViewById(R.id.progressBar);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
@@ -144,7 +147,8 @@ public class OrderActivity extends AppCompatActivity {
 
 
         Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
-        dialog.show();
+//        dialog.show();
+        progressBar.setVisibility(View.VISIBLE);
 
 
         call.getOrder(token, userId).enqueue(new Callback<OrderModel>() {
@@ -180,16 +184,17 @@ public class OrderActivity extends AppCompatActivity {
 
                     }
                     orderData();
-                    dialog.dismiss();
+//                    dialog.dismiss();
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
                 }
-                dialog.dismiss();
-
 
             }
 
             @Override
             public void onFailure(Call<OrderModel> call, Throwable t) {
-
+                progressBar.setVisibility(View.VISIBLE);
             }
         });
 
@@ -234,12 +239,15 @@ public class OrderActivity extends AppCompatActivity {
                     }
                     if (orderAdapter != null) {
                         orderAdapter.notifyDataSetChanged();
+                        progressBar.setVisibility(View.GONE);
                     } else {
                         orderData();
+                        progressBar.setVisibility(View.GONE);
+
                     }
 //                    dialog.dismiss();
                 }
-                dialog.dismiss();
+//                dialog.dismiss();
 
 
             }

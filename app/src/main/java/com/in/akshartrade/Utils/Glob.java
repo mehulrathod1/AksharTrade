@@ -5,7 +5,8 @@ import android.content.Context;
 
 public class Glob {
 
-    public static String baseUrl = "https://akshartrading.notionprojects.tech/public/api/";
+//    public static String baseUrl = "https://akshartrading.notionprojects.tech/public/api/";
+    public static String baseUrl = "https://atdeveloper.org/akshar-trading/public/api/ ";
     public static ProgressDialog dialog;
     public static String userId;
     public static String token = "123456789";

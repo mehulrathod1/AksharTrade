@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -48,6 +49,8 @@ public class TradeBookActivity extends AppCompatActivity {
 
     Handler handler = new Handler();
     Runnable runnable;
+    ProgressBar progressBar;
+
     long delay = 2000;
 
     @Override
@@ -73,6 +76,7 @@ public class TradeBookActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         senSexPrice = findViewById(R.id.senSexPrice);
         niftyPrice = findViewById(R.id.niftyPrice);
+        progressBar = findViewById(R.id.progressBar);
 
 
         bottomNavigationView.setSelectedItemId(R.id.tradeBook);
@@ -141,7 +145,8 @@ public class TradeBookActivity extends AppCompatActivity {
     public void getTrade(String token, String userId) {
 
         Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
-        dialog.show();
+//        dialog.show();
+        progressBar.setVisibility(View.VISIBLE);
 
 
         call.getTrade(token, userId).enqueue(new Callback<OrderModel>() {
@@ -175,13 +180,18 @@ public class TradeBookActivity extends AppCompatActivity {
 
                     }
                     orderData();
-                    dialog.dismiss();
+                    progressBar.setVisibility(View.GONE);
+
                 }
-                dialog.dismiss();
+                else {
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+
             }
 
             @Override
             public void onFailure(Call<OrderModel> call, Throwable t) {
+                progressBar.setVisibility(View.VISIBLE);
 
             }
         });
@@ -226,13 +236,17 @@ public class TradeBookActivity extends AppCompatActivity {
                     }
                     if (tradeAdapter != null){
                         tradeAdapter.notifyDataSetChanged();
+                        progressBar.setVisibility(View.GONE);
+
                     }
                     else {
                         orderData();
 //                        dialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
+
                     }
                 }
-                dialog.dismiss();
+//                dialog.dismiss();
             }
 
             @Override

@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +48,7 @@ public class CompanyOverviewFragment extends Fragment {
 
     Handler handler = new Handler();
     Runnable runnable;
-    long delay = 5000;
+    long delay = 2000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,10 @@ public class CompanyOverviewFragment extends Fragment {
         init();
         getCompanyDetail(token, userId, Glob.instrumentalToken);
         autoUpdate();
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+
         return view;
     }
 
@@ -122,6 +127,15 @@ public class CompanyOverviewFragment extends Fragment {
         buyStock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+                Log.e("fetail", "onClick: " + token);
+                Log.e("fetail", "onClick: " + instrumentToken);
+                Log.e("fetail", "onClick: " + quantity.getText().toString());
+                Log.e("fetail", "onClick: " + totalPrice.getText().toString());
+                Log.e("fetail", "onClick: " + companyName);
+                Log.e("fetail", "onClick: " + exchange);
+
 
                 addShareOrder(token, userId,
                         instrumentToken,
@@ -191,7 +205,7 @@ public class CompanyOverviewFragment extends Fragment {
             @Override
             public void onFailure(Call<CompanyDetailModel> call, Throwable t) {
 
-                dialog.dismiss();
+                dialog.show();
             }
         });
     }
@@ -232,7 +246,7 @@ public class CompanyOverviewFragment extends Fragment {
             @Override
             public void onFailure(Call<CompanyDetailModel> call, Throwable t) {
 
-                dialog.dismiss();
+                dialog.show();
             }
         });
     }
@@ -255,9 +269,10 @@ public class CompanyOverviewFragment extends Fragment {
                 if (response.isSuccessful()) {
                     Toast.makeText(getContext(), "" + commonModel.getMessage(), Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
-                }
-                else {
-                    Toast.makeText(getContext(), "" + commonModel.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("GlobTAG", "onFailure: " + "tMessage()");
+                } else {
+//                    Toast.makeText(getContext(), "" + commonModel.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("GlobTAG", "onFailure: " + "t.getMessage()");
                     dialog.dismiss();
                 }
             }
@@ -266,7 +281,7 @@ public class CompanyOverviewFragment extends Fragment {
             public void onFailure(Call<AddOrderModel> call, Throwable t) {
 
                 dialog.dismiss();
-                Log.e(Glob.TAG, "onFailure: "+t.getMessage());
+                Log.e("GlobTAG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -274,9 +289,7 @@ public class CompanyOverviewFragment extends Fragment {
     public void sellStockOrder(String token, String user_id, String instrument_token,
                                String stake, String quantity, String price, String order_type,
                                String name, String exchange,
-                               String lot_size)
-    {
-
+                               String lot_size) {
         Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
         dialog.show();
 
@@ -286,8 +299,14 @@ public class CompanyOverviewFragment extends Fragment {
             public void onResponse(Call<CommonModel> call, Response<CommonModel> response) {
 
                 CommonModel commonModel = response.body();
-                Toast.makeText(getContext(), "" + commonModel.getMessage(), Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
+                if (response.isSuccessful()) {
+                    Toast.makeText(getContext(), "" + commonModel.getMessage(), Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                } else {
+//                    Toast.makeText(getContext(), "" + commonModel.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("GlobTAG", "onFailure: " + "t.getMessage()");
+                    dialog.dismiss();
+                }
             }
 
             @Override

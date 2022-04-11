@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -54,6 +55,8 @@ public class HistoryActivity extends AppCompatActivity {
     Handler handler = new Handler();
     Runnable runnable;
     long delay = 2000;
+    ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,7 @@ public class HistoryActivity extends AppCompatActivity {
         showDetail = findViewById(R.id.showDetail);
         senSexPrice = findViewById(R.id.senSexPrice);
         niftyPrice = findViewById(R.id.niftyPrice);
+        progressBar = findViewById(R.id.progressBar);
 
 
         bottomSheetDialog = new BottomSheetDialog(HistoryActivity.this);
@@ -163,7 +167,8 @@ public class HistoryActivity extends AppCompatActivity {
     public void getHistory(String token, String userId) {
 
         Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
-        dialog.show();
+//        dialog.show();
+        progressBar.setVisibility(View.VISIBLE);
 
 
         call.getHistory(token, userId).enqueue(new Callback<OrderModel>() {
@@ -197,13 +202,18 @@ public class HistoryActivity extends AppCompatActivity {
 
                     }
                     orderData();
-                    dialog.dismiss();
+//                    dialog.dismiss();
+                    progressBar.setVisibility(View.GONE);
+
                 }
-                dialog.dismiss();
+                else {
+                    progressBar.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
             public void onFailure(Call<OrderModel> call, Throwable t) {
+                progressBar.setVisibility(View.VISIBLE);
 
             }
         });
@@ -250,13 +260,16 @@ public class HistoryActivity extends AppCompatActivity {
                     if (historyAdapter != null) {
 
                         historyAdapter.notifyDataSetChanged();
+                        progressBar.setVisibility(View.GONE);
+
 //                        dialog.dismiss();
-                    }
-                    else {
+                    } else {
                         orderData();
+                        progressBar.setVisibility(View.GONE);
+
                     }
                 }
-                dialog.dismiss();
+//                dialog.dismiss();
             }
 
             @Override
@@ -348,7 +361,7 @@ public class HistoryActivity extends AppCompatActivity {
     public void getTotalBalance(String token, String userId) {
 
         Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);
-        dialog.show();
+//        dialog.show();
 
 
         call.getTotalBalance(token, userId).enqueue(new Callback<TotalBalanceModel>() {
@@ -367,7 +380,7 @@ public class HistoryActivity extends AppCompatActivity {
                     todayProfitLoss.setText("₹ " + model.getProfit_and_lost());
                     dialog.dismiss();
                 }
-                dialog.dismiss();
+//                dialog.dismiss();
             }
 
             @Override
@@ -376,6 +389,7 @@ public class HistoryActivity extends AppCompatActivity {
             }
         });
     }
+
     public void getLiveTotalBalance(String token, String userId) {
 
         Api call = RetrofitClient.getClient(Glob.baseUrl).create(Api.class);

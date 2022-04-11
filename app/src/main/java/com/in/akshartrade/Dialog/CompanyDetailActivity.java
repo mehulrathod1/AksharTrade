@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +55,8 @@ public class CompanyDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_detail);
         this.setFinishOnTouchOutside(false);
-        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         Intent intent = getIntent();
         instrumentToken = intent.getStringExtra("instrumentToken");
@@ -249,7 +251,9 @@ public class CompanyDetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<CommonModel> call, Throwable t) {
 
+                Log.e("TAG", "onFailure: "+t.getMessage() );
             }
+
         });
     }
 
